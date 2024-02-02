@@ -12,12 +12,12 @@ The aim here is to simplify and standardize our processing of genetic data relat
 
 ### Planned Features:
 
-- :seedling: **Genetic Pathways Pipeline:** :seedling: Automate the downloading, processing, and standardization of genetic pathway data for annotating SNPs etc.
-- :seedling: **GWAS Pipeline:** :seedling: Standardised GWAS procedures. 
-- :seedling: **QC Pipeline:** :seedling: May be merged into GWAS or PRS pipelines.
-- :seedling: **PRS Pipeline:** :seedling: Calculate Polygenic Risk Scores with standard approaches (C+T, PRScs)
-- :seedling: **Post GWAS:** :seedling: Probably a post-GWAS section for functional interpretation of GWAS hits leveraging available tools. May be merged with pathways pipeline.
-- :seedling: **Post PRS:** :seedling: Probably a post-PRS section to interpret and compare models.
+- **Genetic Pathways Pipeline:**  Automate the downloading, processing, and standardization of genetic pathway data for annotating SNPs etc.
+- **GWAS Pipeline:** Standardised GWAS procedures. 
+- **QC Pipeline:** May be merged into GWAS or PRS pipelines.
+- **PRS Pipeline:** Calculate Polygenic Risk Scores with standard approaches (C+T, PRScs)
+- **Post GWAS:** Probably a post-GWAS section for functional interpretation of GWAS hits leveraging available tools. May be merged with pathways pipeline.
+- **Post PRS:** Probably a post-PRS section to interpret and compare models.
 
 Each pipeline will be developed with the specific needs of neurodegenerative disorder research in mind, such as running separate analysis with and without the *APOE* region.
 
@@ -25,18 +25,18 @@ Each pipeline will be developed with the specific needs of neurodegenerative dis
 
 Again, it's a work in progress, so this is a just a "watch this space" plan for now. But eventually, getting up and running with our pipelines should be as easy as:
 
-1. **Clone this repository:**
+#### :seedling: Clone this repository:
 
 ```bash
 git clone https://github.com/your-repo/escott-price-lab-pipelines.git
 cd escott-price-lab-pipelines
 ```
 
-2. **Install Dependencies:**
+#### :seedling: Install Dependencies:
 
 Our pipelines use a mix of Bash, R, and Python. Please ensure you have these environments set up, along with any necessary libraries or tools specific to each pipeline. Check out the individual pipeline directories for more detailed setup instructions.
 
-3. **Choose Your Pipeline:**
+#### :seedling: Choose Your Pipeline:
 
 Navigate to the pipeline directory you're interested in (e.g., GWAS, QC, PRS, or Pathways) and follow the README.md instructions there to start your analysis.
 
