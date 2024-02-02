@@ -1,57 +1,49 @@
-# Neuro-genetic pathways
-Standardised pathway annotations for use in genetics of brain disorders.
+# Escott-Price Lab Pipelines
 
-## Overview
+Welcome to the Escott-Price Lab Pipelines repository! :wave: 
 
-This repository is dedicated to the development and maintenance of a comprehensive pipeline for downloading, processing, and standardizing genetic pathway data. Our goal is to provide researchers and enthusiasts with easy access to genetic pathways in a standardized format, making it simpler to integrate and compare data across different studies and genome builds.
+This is our hub for standardized pipelines tailored to genetics research in neurodegenerative disorders. This includes a variety of tools we use to streamline the analysis of Genome-Wide Association Studies (GWAS), Quality Control (QC), and Polygenic Risk Scores (PRS).
 
-The pipeline is designed to automate the liftover process to different genome builds, ensuring that the data is accessible and usable regardless of the reference genome version. Additionally, we provide versions of the data with and without the APOE region, catering to various research needs and preferences.
+:exclamation: Please note this repository is a work in progress :exclamation: We are currently in the process of migrating our scripts and standardising procedures across our group :raised_hands: :raised_hands:, so everything here should be considered experimental. Anyone stumbling across this should exercise caution and not use the repository as the basis for analysis until the code reaches a more mature and stable phase.
 
-**Please note:** This project is currently a work in progress. We are actively developing and refining the pipeline and its documentation. Feedback and contributions are highly welcomed!
+## :cloud: Quick Overview
 
-## Features
+The aim here is to simplify and standardize our processing of genetic data related to neurodegenerative diseases. We leverage a mix of Bash, R, and Python to this effect.
 
-- **Automated Downloading:** Scripts to automatically fetch genetic pathway data from multiple sources.
-- **Standardized Formatting:** Conversion of downloaded data into a standardized format for uniform access and analysis.
-- **Genome Build Liftover:** Automated liftover processes to convert data between different genome builds.
-- **APOE Region Handling:** Provision of data versions with and without the APOE region to support diverse research objectives.
-- **Documentation:** Detailed documentation for each step of the pipeline, ensuring clarity and ease of use.
+### Planned Features:
 
-## Getting Started
+- **Genetic Pathways Pipeline:** Automate the downloading, processing, and standardization of genetic pathway data for annotating SNPs etc.
+- **GWAS Pipeline:** Standardised GWAS procedures. 
+- **QC Pipeline:** May be merged into GWAS or PRS pipelines.
+- **PRS Pipeline:** Calculate Polygenic Risk Scores with standard approaches (C+T, PRScs)
+- **Post GWAS:** Probably a post-GWAS section for functional interpretation of GWAS hits leveraging available tools. May be merged with pathways pipeline.
+- **Post PRS:** Probably a post-PRS section to interpret and compare models.
 
-To get started with the Genetic Pathways Standardization Pipeline, please follow the steps below:
+Each pipeline will be developed with the specific needs of neurodegenerative disorder research in mind, such as running separate analysis with and without the *APOE* region.
 
-1. **Clone the Repository:**
+## :zap: Getting Started
 
-```bash
-git clone https://github.com/your-repo/genetic-pathways-standardization.git
-cd genetic-pathways-standardization
-```
+Again, it's a work in progress, so this is a just a "watch this space" plan for now. But eventually, getting up and running with our pipelines should be as easy as:
 
-2. **Install Dependencies:**
-
-Make sure you have Python 3.x installed and then install the required Python libraries:
+#### :seedling: Clone this repository:
 
 ```bash
-pip install -r requirements.txt
+git clone https://github.com/your-repo/escott-price-lab-pipelines.git
+cd escott-price-lab-pipelines
 ```
 
-3. **Configure Settings:**
+#### :seedling: Install Dependencies:
 
-Edit the `config.json` file to specify the sources from which to download the data and the target genome builds for the liftover process.
+Our pipelines use a mix of Bash, R, and Python. Please ensure you have these environments set up, along with any necessary libraries or tools specific to each pipeline. Check out the individual pipeline directories for more detailed setup instructions.
 
-4. **Run the Pipeline:**
+#### :seedling: Choose Your Pipeline:
 
-Execute the main script to start the downloading and processing of genetic pathways:
+Navigate to the pipeline directory you're interested in (e.g., GWAS, QC, PRS, or Pathways) and follow the README.md instructions there to start your analysis.
 
-```bash
-python run_pipeline.py
-```
+## :page_facing_up: License
 
-## Contributing
+This project is licensed under the GNU General Public License v3.0 - see the [LICENSE](LICENSE) file for details.
 
-We welcome contributions 💚 Whether you have suggestions for new features, improvements, or bug fixes, your input is valuable to us.
+## :green_heart: How to Contribute
 
-## License
-
-This project is licensed under the GPL v.3 licence - see the [LICENSE](LICENSE) file for details.
+We're thrilled to have you consider contributing to the Escott-Price Lab Pipelines! Whether you're fixing bugs, adding features, or improving documentation, your help is welcome.
