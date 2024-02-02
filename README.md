@@ -12,12 +12,12 @@ The aim here is to simplify and standardize our processing of genetic data relat
 
 ### Planned Features:
 
-:seedling: **Genetic Pathways Pipeline:** Automate the downloading, processing, and standardization of genetic pathway data for annotating SNPs etc.
-:seedling: **GWAS Pipeline:** Standardised GWAS procedures. 
-:seedling: **QC Pipeline:** May be merged into GWAS or PRS pipelines.
-:seedling: **PRS Pipeline:** Calculate Polygenic Risk Scores with standard approaches (C+T, PRScs)
-:seedling: **Post GWAS:** Probably a post-GWAS section for functional interpretation of GWAS hits leveraging available tools. May be merged with pathways pipeline.
-:seedling: **Post PRS:** Probably a post-PRS section to interpret and compare models.
+- :seedling: **Genetic Pathways Pipeline:** :seedling: Automate the downloading, processing, and standardization of genetic pathway data for annotating SNPs etc.
+- :seedling: **GWAS Pipeline:** :seedling: Standardised GWAS procedures. 
+- :seedling: **QC Pipeline:** :seedling: May be merged into GWAS or PRS pipelines.
+- :seedling: **PRS Pipeline:** :seedling: Calculate Polygenic Risk Scores with standard approaches (C+T, PRScs)
+- :seedling: **Post GWAS:** :seedling: Probably a post-GWAS section for functional interpretation of GWAS hits leveraging available tools. May be merged with pathways pipeline.
+- :seedling: **Post PRS:** :seedling: Probably a post-PRS section to interpret and compare models.
 
 Each pipeline will be developed with the specific needs of neurodegenerative disorder research in mind, such as running separate analysis with and without the *APOE* region.
 
