@@ -40,6 +40,23 @@ Our pipelines use a mix of Bash, R, and Python. Please ensure you have these env
 
 Navigate to the pipeline directory you're interested in (e.g., GWAS, QC, PRS, or Pathways) and follow the README.md instructions there to start your analysis.
 
+## :white_check_mark: Requirements
+
+R scripts require biomaRt, installed with:
+
+```
+if (!require("BiocManager", quietly = TRUE))
+    install.packages("BiocManager")
+
+BiocManager::install("biomaRt")
+```
+
+Features like liftover over genome builds require other databases and linke files. Setup for these will be in /databases.
+
+## Genome build
+
+By default we use GRCh38.p14. Build 38 closed gaps and fixed errors in the GRCh37 build, so is recommended to be used as standard, and patch 14 is the latest stable release. However, all we use convenience functions to convert to GRCh37 if needed using biomaRt or the comannd line tool from liftover.
+
 ## :page_facing_up: License
 
 This project is licensed under the GNU General Public License v3.0 - see the [LICENSE](LICENSE) file for details.

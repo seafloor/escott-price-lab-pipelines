@@ -1,0 +1,38 @@
+library(biomaRt)
+library(readr)
+library(readxl)
+library(dplyr)
+library(tibble)
+source("swap_organisms.R")
+source("utils.R")
+
+# read raw data
+in_file <- "https://www.science.org/doi/suppl/10.1126/science.adc9020/suppl_file/science.adc9020_tables_s1_to_s4.zip"
+
+temp <- tempfile()
+download.file(in_file, temp)
+unzip(temp, exdir=".")
+
+raw_df <- read_excel("science.adc9020_table_s2.xlsx",
+                     sheet = "825 shared enriched genes",
+                     range = "B3:B828")
+
+# cleanup temp files
+unlink(temp)
+file_list <- list_files(1:4, prepend = "science.adc9020_table_s",
+                        append = ".xlsx")
+cleanup_files(file_list)
+
+# convert from mouse to human
+human_df <- mouse_to_human(raw_df[['gene']])
+
+# printing duplicated ensemble IDs
+print(human_df[duplicated(human_df[['gene_ensemble']]),])
+
+# dropping duplicates
+human_df <- human_df %>%
+  select(-mgi_symbol) %>%
+  distinct() 
+
+# saving genes
+write_csv(human_df, '../output/endo_et_al_2022_astrocytes_grch38.csv')
