@@ -17,9 +17,8 @@ mouse_to_human <- function(genes) {
                              martL = human, uniqueRows=T, verbose=FALSE)
   
   human_from_mouse <- as_tibble(human_from_mouse)
-  colnames(human_from_mouse) <- c('mgi_symbol', 'hgnc_symbol',
-                                  'gene_ensemble', 'chr',
-                                  'gene_start', 'gene_end')
+  cols_clean <- c('mgi_symbol', clean_output_name)
+  colnames(human_from_mouse) <- cols_clean
   
   human_from_mouse <- force_canonical_autosomes(human_from_mouse)
   

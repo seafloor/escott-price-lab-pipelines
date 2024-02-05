@@ -4,6 +4,7 @@ library(readxl)
 library(dplyr)
 library(tibble)
 source("swap_organisms.R")
+source("genes_to_coordinates.R")
 source("utils.R")
 
 # read raw data
@@ -34,5 +35,9 @@ human_df <- human_df %>%
   select(-mgi_symbol) %>%
   distinct() 
 
-# saving genes
+# saving grch38
 write_csv(human_df, '../output/endo_et_al_2022_astrocytes_grch38.csv')
+
+# saving grch38 without APOE
+human_df_no_apoe <- exclude_apoe_region(human_df)
+write_csv(human_df_no_apoe, '../output/endo_et_al_2022_astrocytes_grch38_no_apoe.csv')
