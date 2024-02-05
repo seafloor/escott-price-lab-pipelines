@@ -28,7 +28,7 @@ Again, it's a work in progress, so this is a just a "watch this space" plan for 
 #### :seedling: Clone this repository:
 
 ```bash
-git clone https://github.com/your-repo/escott-price-lab-pipelines.git
+git clone https://github.com/seafloor/escott-price-lab-pipelines.git
 cd escott-price-lab-pipelines
 ```
 
