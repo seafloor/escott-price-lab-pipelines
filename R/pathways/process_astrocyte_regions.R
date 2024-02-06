@@ -36,7 +36,7 @@ human_df <- human_df |>
   distinct() 
 
 # saving grch38
-write_csv(human_df, '../output/endo_et_al_2022_astrocytes_grch38.csv')
+write_csv(human_df, 'output/pathways/endo_et_al_2022_astrocytes_grch38.csv')
 
 # saving grch38 without APOE
 human_df_no_apoe <- exclude_apoe_region(human_df)
