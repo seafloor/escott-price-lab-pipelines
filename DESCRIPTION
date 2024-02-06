@@ -1,0 +1,25 @@
+Package: escott-price-lab-pipelines
+Type: Project
+Version: 0.1.0
+Date: 2024-02-05
+Title: Reproducible Pipelines For Genetics Of Brain Disorders
+Authors@R: c(
+    person("Matthew", "Bracher-Smith", role = c("aut", "cre")),
+    person("Ganna", "Leonenko", role = "aut"),
+    person("Emily", "Simmonds", role = "aut")
+    )
+Description: Workflows for common tasks we run like qc, GWAS and PRS. See the README for an up-to-date description of the details.
+License: GPL-3
+Depends:
+    R (>= 4.1.0)
+Imports:
+    biomaRt,
+    readr,
+    readxl,
+    tidyr,
+    dplyr,
+    tibble
+Suggests:
+Encoding: UTF-8
+LazyData: true
+

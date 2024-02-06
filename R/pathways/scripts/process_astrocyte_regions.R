@@ -31,8 +31,8 @@ human_df <- mouse_to_human(raw_df[['gene']])
 print(human_df[duplicated(human_df[['gene_ensemble']]),])
 
 # dropping duplicates
-human_df <- human_df %>%
-  select(-mgi_symbol) %>%
+human_df <- human_df |>
+  select(-mgi_symbol) |>
   distinct() 
 
 # saving grch38

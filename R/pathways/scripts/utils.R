@@ -26,8 +26,8 @@ paste_names <- function(i, pre, post) {
 
 force_canonical_autosomes <- function(df) {
   valid_chromosomes <- as.character(1:22)
-  df <- df %>%
-    filter(chr %in% valid_chromosomes) %>%
+  df <- df |>
+    filter(chr %in% valid_chromosomes) |>
     mutate(chr = as.integer(chr))
   
   return(df)
@@ -58,15 +58,15 @@ set_genomes <- function() {
 exclude_apoe_region <- function(data){
   apoe_coordinates <- apoe_region
 
-  genes_to_drop <- data %>%
-    filter(chr == apoe_coordinates["chromosome"]) %>%
-    select(gene_ensemble, gene_start, gene_end) %>%
+  genes_to_drop <- data |>
+    filter(chr == apoe_coordinates["chromosome"]) |>
+    select(gene_ensemble, gene_start, gene_end) |>
     pivot_longer(-gene_ensemble, names_to = "gene_boundary",
-                 values_to = "coordinates") %>%
+                 values_to = "coordinates") |>
     filter(coordinates >= apoe_coordinates["start"],
-           coordinates <= apoe_coordinates["end"]) %>%
-    select(gene_ensemble) %>%
-    pull() %>%
+           coordinates <= apoe_coordinates["end"]) |>
+    select(gene_ensemble) |>
+    pull() |>
     unique()
   
   data <- filter(data, !gene_ensemble %in% genes_to_drop)

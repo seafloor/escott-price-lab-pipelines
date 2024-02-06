@@ -42,16 +42,9 @@ Navigate to the pipeline directory you're interested in (e.g., GWAS, QC, PRS, or
 
 ## :white_check_mark: Requirements
 
-R scripts require biomaRt, installed with:
+See the DESCRIPTION file for a full list of requirements. Run install_dependencies.R to install everything. Note that the minimum R version is 4.1.0.
 
-```
-if (!require("BiocManager", quietly = TRUE))
-    install.packages("BiocManager")
-
-BiocManager::install("biomaRt")
-```
-
-Features like liftover over genome builds require other databases and linke files. Setup for these will be in /databases.
+Features like liftover over genome builds require other databases and linke files. Setup for these will be in /data.
 
 ## Genome build
 
