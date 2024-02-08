@@ -1,6 +1,6 @@
 library(biomaRt)
-source("standard_reference.R")
-source("utils.R")
+source(here("R", "utilities", "standard_reference.R"))
+source(here("R", "utilities", "utils.R"))
 
 mouse_to_human <- function(genes) {
   genomes <- set_genomes()

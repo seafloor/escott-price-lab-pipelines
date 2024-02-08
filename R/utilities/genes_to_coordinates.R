@@ -1,6 +1,6 @@
 library(biomaRt)
-source("standard_reference.R")
-source("utils.R")
+source(here("R", "utilities", "standard_reference.R"))
+source(here("R", "utilities", "utils.R"))
 
 get_regions_from_genes <- function(genes, gene_format = "hgnc_symbol",
                                    build = "grch38") {

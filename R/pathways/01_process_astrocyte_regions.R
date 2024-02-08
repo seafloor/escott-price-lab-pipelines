@@ -3,16 +3,15 @@ library(readr)
 library(readxl)
 library(dplyr)
 library(tibble)
-source("swap_organisms.R")
-source("genes_to_coordinates.R")
-source("utils.R")
+library(here)
+source(here("R", "utilities", "swap_organisms.R"))
+source(here("R", "utilities", "genes_to_coordinates.R"))
+source(here("R", "utilities", "utils.R"))
 
 # read raw data
 in_file <- "https://www.science.org/doi/suppl/10.1126/science.adc9020/suppl_file/science.adc9020_tables_s1_to_s4.zip"
 
-temp <- tempfile()
-download.file(in_file, temp)
-unzip(temp, exdir=".")
+temp <- download_supplement(in_file)
 
 raw_df <- read_excel("science.adc9020_table_s2.xlsx",
                      sheet = "825 shared enriched genes",

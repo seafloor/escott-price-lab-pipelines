@@ -1,6 +1,20 @@
 library(tidyr)
 library(dplyr)
-source("standard_reference.R")
+library(stringr)
+library(httr)
+library(here)
+source(here("R", "utilities", "standard_reference.R"))
+
+download_supplement <- function(path) {
+  temp <- tempfile()
+  download.file(path, temp)
+  
+  if (stringr::str_ends(path, "\\.zip")) {
+    unzip(temp, exdir=".")
+  }
+  
+  return(temp)
+}
 
 cleanup_files <- function(file_list) {
   for (i in 1:length(file_list)) {
