@@ -16,11 +16,15 @@ Imports:
     biomaRt,
     readr,
     readxl,
+    httr,
+    DescTools,
     tidyr,
     dplyr,
     tibble,
     janitor,
-    here
+    here,
+    testthat,
+    mockery
 Suggests:
 Encoding: UTF-8
 LazyData: true

@@ -1,5 +1,6 @@
 # Install CRAN packages
-packages <- c("readr", "readxl", "tidyr", "dplyr", "tibble", "janitor", "here")
+packages <- c("readr", "readxl", "tidyr", "dplyr", "tibble", "janitor",
+              "here", "testthat", "mockery", "httr", "DescTools")
 install.packages(packages)
 
 # Install Bioconductor packages
