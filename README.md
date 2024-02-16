@@ -1,3 +1,5 @@
+![travis-build-status](https://app.travis-ci.com/seafloor/escott-price-lab-pipelines.svg])
+
 # Escott-Price Lab Pipelines
 
 Welcome to the Escott-Price Lab Pipelines repository! :wave: 
