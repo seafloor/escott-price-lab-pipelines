@@ -1,4 +1,4 @@
-![travis-build-status](https://app.travis-ci.com/seafloor/escott-price-lab-pipelines.svg])
+![travis-build-status](https://app.travis-ci.com/seafloor/escott-price-lab-pipelines.svg?branch=main)
 
 # Escott-Price Lab Pipelines
 
