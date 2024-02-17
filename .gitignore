@@ -23,7 +23,9 @@
 
 # RStudio files
 .Rproj.user/
-escott-price-lab-pipelines.Rproj
+.Renvironment
+
+escottpricelabpipelines.Rproj
 
 # produced vignettes
 vignettes/*.html
@@ -51,3 +53,4 @@ po/*~
 
 # RStudio Connect folder
 rsconnect/
+.Rproj.user

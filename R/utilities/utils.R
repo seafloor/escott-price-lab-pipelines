@@ -3,8 +3,15 @@ library(dplyr)
 library(stringr)
 library(httr)
 library(here)
-library(DescTools)
 source(here("R", "utilities", "standard_reference.R"))
+
+is_zip <- function(f) {
+  if (stringr::str_detect(f, "\\.zip$")) {
+    return(TRUE)
+  } else {
+    return(FALSE)
+  }
+}
 
 download_supplement <- function(path, temp_out_path = "") {
   # hard coding temp dir for now
@@ -21,9 +28,8 @@ download_supplement <- function(path, temp_out_path = "") {
   files <- list.files(temp_out_path)
   for (i in 1:length(files)) {
     f <- files[i]
-    splitter <- SplitPath(f)
 
-    if (splitter$extension == "zip") {
+    if (is_zip(f)) {
       zip_file <- file.path(temp_out_path, f)
       unzip(zip_file, exdir = data_dir)
     } else {
