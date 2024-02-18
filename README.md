@@ -1,4 +1,5 @@
 ![travis-build-status](https://app.travis-ci.com/seafloor/escott-price-lab-pipelines.svg?branch=main)
+[![codecov](https://codecov.io/gh/seafloor/escott-price-lab-pipelines/graph/badge.svg?token=IE0NJEL213)](https://codecov.io/gh/seafloor/escott-price-lab-pipelines)
 
 # Escott-Price Lab Pipelines
 
