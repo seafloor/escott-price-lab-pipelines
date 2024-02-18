@@ -1,16 +1,16 @@
+# Escott-Price Lab Pipelines
+
 ![travis-build-status](https://app.travis-ci.com/seafloor/escott-price-lab-pipelines.svg?branch=main)
 [![codecov](https://codecov.io/gh/seafloor/escott-price-lab-pipelines/graph/badge.svg?token=IE0NJEL213)](https://codecov.io/gh/seafloor/escott-price-lab-pipelines)
 [![lifecycle](https://lifecycle.r-lib.org/articles/figures/lifecycle-experimental.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
 
-# Escott-Price Lab Pipelines
+## :cloud: Quick Overview
 
 Welcome to the Escott-Price Lab Pipelines repository! :wave: 
 
 This is our hub for standardized pipelines tailored to genetics research in neurodegenerative disorders. This includes a variety of tools we use to streamline the analysis of Genome-Wide Association Studies (GWAS), Quality Control (QC), and Polygenic Risk Scores (PRS).
 
 :exclamation: Please note this repository is a work in progress :exclamation: We are currently in the process of migrating our scripts and standardising procedures across our group :raised_hands: :raised_hands:, so everything here should be considered experimental. Anyone stumbling across this should exercise caution and not use the repository as the basis for analysis until the code reaches a more mature and stable phase.
-
-## :cloud: Quick Overview
 
 The aim here is to simplify and standardize our processing of genetic data related to neurodegenerative diseases. We leverage a mix of Bash, R, and Python to this effect.
 
