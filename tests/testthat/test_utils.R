@@ -1,13 +1,7 @@
-library(testthat)
-library(mockery)
-library(here)
-source(here("R", "utilities", "utils.R"))
-
 test_that("download_supplement downloads and unzips files", {
   # Arrange
   # Mock the download.file function to not actually perform a download
-  test_zip_path <- here("tests", "testthat", "test_data", "test_files.zip")
-  temp_data_path <- here("data", "temp")
+  test_zip_path <- testthat::test_path("test_data/test_files.zip")
 
   # make temp out_dir
   output_dir <- tempfile()
@@ -17,38 +11,19 @@ test_that("download_supplement downloads and unzips files", {
   mock_download <- function(url, destfile, ...) {
     file.copy(test_zip_path, destfile)
   }
-  stub(download_supplement, "download.file", mock_download)
+  mockery::stub(download_supplement, "download.file", mock_download)
 
   # Act
   # Call function with fake URL included since it won't actually download
   download_supplement("http://fakeurl.com/fake.zip", output_dir)
 
   # Assert
-  expect_true(file.exists(file.path(temp_data_path, "file1.xlsx")))
-  expect_true(file.exists(file.path(temp_data_path, "file2.xlsx")))
-  expect_true(file.exists(file.path(temp_data_path, "file3.xlsx")))
+  expect_true(file.exists(file.path(output_dir, "file1.xlsx")))
+  expect_true(file.exists(file.path(output_dir, "file2.xlsx")))
+  expect_true(file.exists(file.path(output_dir, "file3.xlsx")))
 
+  # Clean up
   unlink(output_dir, recursive = TRUE)
-  unlink(temp_data_path, recursive = TRUE)
-})
-
-test_that("cleanup_files removes files", {
-  # Arrange
-  file_list <- c("file1.csv", "file2.csv", "file3.csv")
-  sapply(file_list, file.create)
-
-  # Assert
-  expect_true(file.exists("file1.csv"))
-  expect_true(file.exists("file2.csv"))
-  expect_true(file.exists("file3.csv"))
-
-  # Act
-  cleanup_files(file_list)
-
-  # Assert
-  expect_false(file.exists("file1.csv"))
-  expect_false(file.exists("file2.csv"))
-  expect_false(file.exists("file3.csv"))
 })
 
 test_that("list_files returns a list of file names", {
@@ -167,7 +142,7 @@ test_that("read_ref_genome_coordinates returns a tibble", {
 
 test_that("exclude_apoe_region returns a tibble", {
   # Arrange
-  data <- tribble(
+  data <- tibble::tribble(
     ~hgnc_symbol, ~gene_ensemble, ~chr, ~gene_start, ~gene_end,
     "MyGene", "ENSG00000000001", 1, 1000, 2000
   )
@@ -181,7 +156,7 @@ test_that("exclude_apoe_region returns a tibble", {
 
 test_that("read_bim_file returns a tibble", {
   # Arrange
-  f <- here("tests", "testthat", "test_data", "test_bim.bim")
+  f <- testthat::test_path("test_data/test_bim.bim")
 
   # Act
   result <- read_bim_file(f)
@@ -192,7 +167,7 @@ test_that("read_bim_file returns a tibble", {
 
 test_that("read_regions_to_search returns a tibble", {
   # Arrange
-  f <- here("output", "pathways", "gosselin_et_al_2017_microglia_grch38.csv")
+  f <- testthat::test_path("test_data/test_pathway_grch38.csv")
 
   # Act
   result <- read_regions_to_search(f)

@@ -1,5 +1,3 @@
-library(dplyr)
-
 calculate_proportion <- function(n_in_regions, region_lengths) {
   proportion_in_regions <- sum(n_in_regions) / sum(region_lengths)
 
@@ -26,7 +24,7 @@ sample_dummy_regions <- function(n_regions = 100, min_length = 1000, max_length 
     m[i, ] <- sample_region(l, ref_coords)
   }
 
-  m <- as_tibble(as.data.frame(m))
+  m <- tibble::as_tibble(as.data.frame(m))
   colnames(m) <- c("CHR", "BP_START", "BP_END")
 
   return(m)
@@ -56,7 +54,7 @@ get_coverage_for_chromosome <- function(data, chr_reference, chrom = 1) {
   }
 
   bp_covered <- length(unique(all_coords))
-  coverage <- (bp_covered / filter(chr_reference, `Chromosome name` == chrom)[["Seq length"]]) * 100
+  coverage <- (bp_covered / dplyr::filter(chr_reference, `Chromosome name` == chrom)[["Seq length"]]) * 100
 
   return(coverage)
 }
@@ -67,12 +65,12 @@ check_if_snps_in_region <- function(region_row, upstream_bp = 35000,
   row_bp_start_int <- as.integer(region_row["gene_start"])
   row_bp_end_int <- as.integer(region_row["gene_end"])
 
-  n_top_snps_in_region <- top_snp_pos %>%
+  n_top_snps_in_region <- top_snp_pos |>
     dplyr::filter(
       CHR == row_chr_int,
       POS >= (row_bp_start_int - upstream_bp),
       POS <= (row_bp_end_int + downstream_bp)
-    ) %>%
+    ) |>
     nrow()
 
   return(n_top_snps_in_region)
@@ -95,5 +93,5 @@ check_if_snps_in_region <- function(region_row, upstream_bp = 35000,
 # cov <- as_tibble(data.frame('chr' = 1:22, 'coverage' = cov))
 # cov
 #
-# cov %>%
+# cov |>
 #   ggplot(aes(x=chr, y=coverage)) + geom_bar(stat = "identity")

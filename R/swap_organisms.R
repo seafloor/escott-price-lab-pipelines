@@ -1,7 +1,3 @@
-library(biomaRt)
-source(here("R", "utilities", "standard_reference.R"))
-source(here("R", "utilities", "utils.R"))
-
 mouse_to_human <- function(genes) {
   genomes <- set_genomes()
   human <- genomes[[1]]
@@ -18,7 +14,7 @@ mouse_to_human <- function(genes) {
     martL = human, uniqueRows = T, verbose = FALSE
   )
 
-  human_from_mouse <- as_tibble(human_from_mouse)
+  human_from_mouse <- tibble::as_tibble(human_from_mouse)
   cols_clean <- c("mgi_symbol", clean_output_name)
   colnames(human_from_mouse) <- cols_clean
 

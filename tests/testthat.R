@@ -1,3 +1,4 @@
 library(testthat)
+library(escottpricelabpipelines)
 
-test_dir(here("tests", "testthat", "test_utilities"), reporter = "summary")
+test_check("escottpricelabpipelines")

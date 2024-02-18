@@ -1,8 +1,7 @@
 Package: escottpricelabpipelines
-Type: Project
+Title: Reproducible Pipelines For Genetics Of Brain Disorders
 Version: 0.1.0
 Date: 2024-02-05
-Title: Reproducible Pipelines For Genetics Of Brain Disorders
 Authors@R: c(
     person("Matthew", "Bracher-Smith", , "smithmr5@cardiff.ac.uk",
     role = c("aut", "cre"),
@@ -16,20 +15,21 @@ Depends:
     R (>= 4.1.0)
 Imports:
     biomaRt,
+    tibble,
     readr,
     readxl,
-    httr,
     tidyr,
     dplyr,
     tibble,
     janitor,
     here
 Suggests:
-    testthat,
+    testthat (>= 3.0.0),
+    covr,
     mockery,
     BiocManager
+Config/testthat/edition: 3
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.1
 LazyData: true
-

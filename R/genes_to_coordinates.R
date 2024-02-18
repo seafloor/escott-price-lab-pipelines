@@ -1,7 +1,3 @@
-library(biomaRt)
-source(here("R", "utilities", "standard_reference.R"))
-source(here("R", "utilities", "utils.R"))
-
 get_regions_from_genes <- function(genes, gene_format = "hgnc_symbol",
                                    build = "grch38") {
   mymart <- set_human_genome(build)
@@ -20,5 +16,5 @@ get_regions_from_genes <- function(genes, gene_format = "hgnc_symbol",
 
   regions <- force_canonical_autosomes(regions)
 
-  return(as_tibble(regions))
+  return(tibble::as_tibble(regions))
 }
