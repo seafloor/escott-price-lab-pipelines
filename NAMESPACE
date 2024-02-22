@@ -3,6 +3,7 @@
 export(download_supplement)
 export(exclude_apoe_region)
 export(force_canonical_autosomes)
+export(get_regions_from_genes)
 export(is_zip)
 export(list_files)
 export(paste_names)
