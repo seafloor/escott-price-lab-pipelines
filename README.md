@@ -29,7 +29,7 @@ The aim here is to simplify and standardize our processing of genetic data relat
 
 Getting started is now as easy as 1, 2, 3.
 
-##### 1. Install the escott-price-lab-pipelines package:
+1. Install the escott-price-lab-pipelines package:
 
 Code can be installed using devtools. Minimum R version is 4.1.0 - see the DESCRIPTION file for details. Paste the code below into the R console to get up and running.
 
@@ -40,7 +40,7 @@ if (!require("devtools", quietly = TRUE)) {
 devtools::install_github("https://github.com/seafloor/escott-price-lab-pipelines")
 ```
 
-##### 2. Install dependencies:
+2. Install dependencies:
 
 After installing the package, paste the code below to install anything that can't packaged with the normal r package install process (e.g. bioconductor). This can be skipped, but you will be prompted to install these when running a function that needs them. If you're running a script on a server and are not in an interactive session then it will fail, so we recommend running this now.
 
@@ -49,7 +49,7 @@ library(escottpricelabpipelines)
 install_dependencies()
 ```
 
-##### 3. Install required databases:
+3. Install required databases:
 
 We use remote servers where possible to query large databases, but sometimes it's faster to run operations locally, or we haven't yet found an optimal server to use. Paste the code below to download all required databases. Again, this can be skipped, and if you don't install now then you will be prompted for consent to download databases as needed. 
 
@@ -59,7 +59,7 @@ install_databases()
 
 ### Genome build
 
-By default we use GRCh38.p14. Build 38 closed gaps and fixed errors in the GRCh37 build, so is recommended to be used as standard, and patch 14 is the latest stable release. However, all we use convenience functions to convert to GRCh37 if needed using biomaRt or the comannd line tool from liftover.
+By default we use GRCh38.p14. Build 38 closed gaps and fixed errors in the GRCh37 build, so is recommended to be used as standard, and patch 14 is the latest stable release. However, we use convenience functions to convert to GRCh37 if needed using biomaRt or the comannd line tool from liftover.
 
 ### :page_facing_up: License
 
@@ -69,4 +69,4 @@ This project is licensed under the GNU General Public License v3.0.
 
 We're thrilled to have you consider contributing to the Escott-Price Lab Pipelines! Whether you're fixing bugs, adding features, or improving documentation, your help is welcome.
 
-Note that the core functions are part of the escottpricelabpipelines package (in /R), and the workflow scripts (in /workflows) use the `box` package [because just importing all functions from a package is mad and doesn't happen in other major langauges](https://github.com/klmr/box?tab=readme-ov-file#why-box), so you shouldn't need to ever call `library()` to load functions when contributing.
+Note that the core functions are part of the escottpricelabpipelines package (in /R), and the workflow scripts (in /workflows) use the `box` package [because just importing all functions from a package is mad and doesn't happen in other major languages](https://github.com/klmr/box?tab=readme-ov-file#why-box), so you shouldn't need to ever call `library()` to load functions when contributing.
