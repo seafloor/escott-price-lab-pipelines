@@ -2,13 +2,18 @@ language: r
 cache: packages
 warnings_are_errors: false
 
+os:
+  - linux
+  - osx
+
+r:
+  - oldrel
+  - release
+  - devel
+
 before_install:
   - Rscript -e 'if (!requireNamespace("BiocManager", quietly = TRUE)) install.packages("BiocManager")'
   - Rscript -e 'BiocManager::install("biomaRt")'
-
-r:
-  - release
-  - devel
 
 script:
   - R CMD build .

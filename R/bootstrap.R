@@ -65,12 +65,12 @@ check_if_snps_in_region <- function(region_row, upstream_bp = 35000,
   row_bp_start_int <- as.integer(region_row["gene_start"])
   row_bp_end_int <- as.integer(region_row["gene_end"])
 
-  n_top_snps_in_region <- top_snp_pos |>
+  n_top_snps_in_region <- top_snp_pos %>%
     dplyr::filter(
       CHR == row_chr_int,
       POS >= (row_bp_start_int - upstream_bp),
       POS <= (row_bp_end_int + downstream_bp)
-    ) |>
+    ) %>%
     nrow()
 
   return(n_top_snps_in_region)
@@ -93,5 +93,5 @@ check_if_snps_in_region <- function(region_row, upstream_bp = 35000,
 # cov <- as_tibble(data.frame('chr' = 1:22, 'coverage' = cov))
 # cov
 #
-# cov |>
+# cov %>%
 #   ggplot(aes(x=chr, y=coverage)) + geom_bar(stat = "identity")

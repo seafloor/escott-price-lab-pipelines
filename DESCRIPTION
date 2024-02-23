@@ -9,10 +9,10 @@ Authors@R: c(
     person("Ganna", "Leonenko", role = "aut"),
     person("Emily", "Simmonds", role = "aut")
     )
-Description: Workflows for common tasks we run like qc, GWAS and PRS. See the README for an up-to-date description of the details.
+Description: Workflows for common tasks in the Escott-Price lab, like qc, GWAS and PRS. See the README for an up-to-date description.
 License: GPL-3
 Depends:
-    R (>= 4.1.0)
+    R (>= 3.5)
 Imports:
     biomaRt,
     box,
@@ -23,13 +23,13 @@ Imports:
     dplyr,
     tibble,
     janitor,
+    magrittr,
     here
 Suggests:
-    testthat (>= 3.0.0),
+    testthat,
     covr,
     mockery,
     BiocManager
-Config/testthat/edition: 3
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.1

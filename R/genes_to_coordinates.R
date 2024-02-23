@@ -7,9 +7,11 @@
 #' @return A tibble with columns "gene", "chromosome", "start", "end", "strand".
 #'
 #' @examples
+#' \dontrun{
 #' genes <- c("PABPC4;HEYL", "PCSK9")
 #' flat_genes <- unlist(stringr::str_split(genes, ";"))
 #' coords <- get_regions_from_genes(flat_genes, gene_format = "hgnc_symbol")
+#' }
 #'
 #' @export
 get_regions_from_genes <- function(genes, gene_format = "hgnc_symbol",

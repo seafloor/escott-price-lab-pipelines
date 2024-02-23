@@ -3,10 +3,15 @@
 #' Determines whether the specified file has a `.zip` extension.
 #'
 #' @param f The file name to check.
+#'
 #' @return `TRUE` if the file is a zip archive, otherwise `FALSE`.
+#'
 #' @examples
+#' \dontrun{
 #' is_zip("example.zip") # returns TRUE
 #' is_zip("example.txt") # returns FALSE
+#' }
+#'
 #' @export
 is_zip <- function(f) {
   if (stringr::str_detect(f, "\\.zip$")) {
@@ -23,7 +28,9 @@ is_zip <- function(f) {
 #'
 #' @param path The URL of the file to download.
 #' @param temp_out_path Optional; the output path for the downloaded file.
+#'
 #' @return The path to the downloaded (and possibly unzipped) files.
+#'
 #' @export
 download_supplement <- function(path, temp_out_path = "") {
   if (temp_out_path == "") {
@@ -51,7 +58,9 @@ download_supplement <- function(path, temp_out_path = "") {
 #' @param range A vector of values to create file names for.
 #' @param prepend Text to prepend to each file name.
 #' @param append Text to append to each file name.
+#'
 #' @return A vector of constructed file names.
+#'
 #' @export
 list_files <- function(range, prepend, append) {
   file_list <- sapply(range, paste_names, prepend, append)
@@ -66,7 +75,9 @@ list_files <- function(range, prepend, append) {
 #' @param i Index to be included between prefix and suffix.
 #' @param pre Prefix for the name.
 #' @param post Suffix for the name.
+#'
 #' @return A string resulting from the concatenation of prefix, index, and suffix.
+#'
 #' @export
 paste_names <- function(i, pre, post) {
   return(paste(pre, i, post, sep = ""))
@@ -78,12 +89,14 @@ paste_names <- function(i, pre, post) {
 #' chromosome identifiers to integers. Assumes input chromosomes are strings.
 #'
 #' @param df A dataframe containing chromosome data as strings.
+#'
 #' @return A dataframe filtered for canonical autosomes with integer chromosome identifiers.
+#'
 #' @export
 force_canonical_autosomes <- function(df) {
   valid_chromosomes <- as.character(1:22)
-  df <- df |>
-    dplyr::filter(chr %in% valid_chromosomes) |>
+  df <- df %>%
+    dplyr::filter(chr %in% valid_chromosomes) %>%
     dplyr::mutate(chr = as.integer(chr))
 
   return(df)
@@ -94,7 +107,9 @@ force_canonical_autosomes <- function(df) {
 #' Configures the human genome annotation using BioMart based on the specified genome build.
 #'
 #' @param human_build The human genome build to use, either "grch38" or "grch37".
+#'
 #' @return A BioMart object configured for the specified human genome build.
+#'
 #' @export
 set_human_genome <- function(human_build = "grch38") {
   if (human_build == "grch38") {
@@ -119,6 +134,7 @@ set_human_genome <- function(human_build = "grch38") {
 #' Configures BioMart objects for both human and mouse genome annotations.
 #'
 #' @return A list containing BioMart objects for human and mouse genomes.
+#'
 #' @export
 set_genomes <- function() {
   human <- set_human_genome()
@@ -135,6 +151,7 @@ set_genomes <- function() {
 #' Reads hardcoded reference genome coordinates, specifically for GRCh38.p14.
 #'
 #' @return A dataframe containing reference genome coordinates.
+#'
 #' @export
 read_ref_genome_coordinates <- function() {
   warning("Reference genome coordinates are hard-coded to GRCh38.p14")
@@ -154,7 +171,7 @@ read_ref_genome_coordinates <- function() {
       `Chromosome name` = readr::col_integer(),
       `Seq length` = readr::col_integer()
     )
-  ) |>
+  ) %>%
     dplyr::mutate(chr_weights = `Seq length` / `Seq length`[1])
 
   return(ref)
@@ -165,24 +182,26 @@ read_ref_genome_coordinates <- function() {
 #' Filters out genes located in the APOE region based on predefined coordinates.
 #'
 #' @param data A dataframe containing gene annotations.
+#'
 #' @return A dataframe excluding genes in the APOE region.
+#'
 #' @export
 exclude_apoe_region <- function(data) {
   apoe_coordinates <- apoe_region
 
-  genes_to_drop <- data |>
-    dplyr::filter(chr == apoe_coordinates["chromosome"]) |>
-    dplyr::select(gene_ensemble, gene_start, gene_end) |>
+  genes_to_drop <- data %>%
+    dplyr::filter(chr == apoe_coordinates["chromosome"]) %>%
+    dplyr::select(gene_ensemble, gene_start, gene_end) %>%
     tidyr::pivot_longer(-gene_ensemble,
       names_to = "gene_boundary",
       values_to = "coordinates"
-    ) |>
+    ) %>%
     dplyr::filter(
       coordinates >= apoe_coordinates["start"],
       coordinates <= apoe_coordinates["end"]
-    ) |>
-    dplyr::select(gene_ensemble) |>
-    dplyr::pull() |>
+    ) %>%
+    dplyr::select(gene_ensemble) %>%
+    dplyr::pull() %>%
     unique()
 
   data <- dplyr::filter(data, !gene_ensemble %in% genes_to_drop)
@@ -195,7 +214,9 @@ exclude_apoe_region <- function(data) {
 #' Reads a .bim file and extracts SNP information.
 #'
 #' @param f The filepath to the .bim file.
+#'
 #' @return A dataframe with SNP information from the .bim file.
+#'
 #' @export
 read_bim_file <- function(f) {
   bim <- readr::read_tsv(f,
@@ -219,7 +240,9 @@ read_bim_file <- function(f) {
 #' generates a dummy region for testing. Adds gene length as a column.
 #'
 #' @param f The filepath to the regions file or "dummy_region" for a test region.
+#'
 #' @return A dataframe of regions with calculated gene length in base pairs.
+#'
 #' @export
 read_regions_to_search <- function(f) {
   if (f == "dummy_region") {
@@ -228,7 +251,7 @@ read_regions_to_search <- function(f) {
       HGNCTESTCHR19, ENSIDTESTCHR19, 19, 1, 50000000, 50000000
     )
   } else {
-    regions <- readr::read_csv(f) |>
+    regions <- readr::read_csv(f) %>%
       dplyr::mutate(gene_length_bp = gene_start - gene_end)
   }
 

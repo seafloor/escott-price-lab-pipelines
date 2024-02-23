@@ -1,3 +1,18 @@
+#' Install Required Bioconductor Dependencies
+#'
+#' This function checks for and installs required Bioconductor packages for the package.
+#' Currently, it ensures that `biomaRt` is installed, using `BiocManager`.
+#'
+#' @details The function first checks if `BiocManager` is installed and installs it if necessary.
+#' Then, it checks for the presence of specified Bioconductor packages (`biomaRt`) and installs any that are missing.
+#' This is particularly useful for setting up the package environment or ensuring that dependencies are met for new users.
+#'
+#' @examples
+#' \dontrun{
+#' install_dependencies()
+#' }
+#'
+#' @export
 install_dependencies <- function() {
   # install bioconductor and biomaRt
   if (!requireNamespace("BiocManager", quietly = TRUE)) {

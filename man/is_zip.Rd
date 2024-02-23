@@ -16,6 +16,9 @@ is_zip(f)
 Determines whether the specified file has a \code{.zip} extension.
 }
 \examples{
+\dontrun{
 is_zip("example.zip") # returns TRUE
 is_zip("example.txt") # returns FALSE
+}
+
 }
