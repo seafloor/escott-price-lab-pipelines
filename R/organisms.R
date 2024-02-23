@@ -13,13 +13,12 @@
 #'
 #' @examples
 #' \dontrun{
-#' mouse_genes <- c("apoc1", "trem2") # Example mouse gene symbols
+#' mouse_genes <- c("Apoc1", "Trem2") # Example mouse gene symbols
 #' human_orthologs <- mouse_to_human(mouse_genes)
 #' print(human_orthologs)
 #' }
 #'
 #' @export
-
 mouse_to_human <- function(genes) {
   genomes <- set_genomes()
   human <- genomes[[1]]

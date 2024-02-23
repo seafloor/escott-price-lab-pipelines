@@ -26,7 +26,7 @@ Imports:
     magrittr,
     here
 Suggests:
-    testthat,
+    testthat (>= 3.0.0),
     covr,
     mockery,
     BiocManager

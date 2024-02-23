@@ -102,6 +102,89 @@ force_canonical_autosomes <- function(df) {
   return(df)
 }
 
+
+#' Set up BioMart connection
+#'
+#' Initializes a connection to a specified BioMart database and dataset.
+#'
+#' @param dataset The dataset to connect to within the BioMart database.
+#' @param host The URL of the BioMart host to connect to.
+#'
+#' @return An object of class Mart representing the BioMart connection.
+#' 
+#' @examples
+#' \dontrun{
+#'   mart <- set_mart(dataset = "hsapiens_gene_ensembl", host = "http://www.ensembl.org/biomart")
+#' }
+#' 
+#' @export
+set_mart <- function(dataset, host){
+  biomaRt::useMart(
+    biomart = "ensembl", dataset = dataset,
+    host = host
+  )
+}
+
+#' Attempt to establish BioMart connection with error handling
+#'
+#' Tries to connect to a specified BioMart database and dataset, with
+#' error handling for HTTP connection issues. If the initial connection fails
+#' due to a server-side error, it attempts to connect to a mirror site.
+#'
+#' @param dataset The dataset to connect to within the BioMart database.
+#' @param host The URL of the BioMart host to connect to initially.
+#'
+#' @return An object of class Mart representing the BioMart connection, or
+#' `NA` if the connection could not be established after error handling.
+#' 
+#' @examples
+#' \dontrun{
+#'   mart <- try_mart(dataset = "hsapiens_gene_ensembl", host = "http://www.ensembl.org/biomart")
+#' }
+#' 
+#' @export
+try_mart <- function(dataset, host) {
+  tryCatch(
+    expr = {
+      message("Trying ensembl mart")
+      mart <- set_mart(dataset, host)
+    },
+    error = function(e) {
+      http_error = as.integer(
+        stringr::str_extract(conditionMessage(e),
+                             pattern = "\\(HTTP ([0-9]{3})\\)",
+                             group = 1)
+      )
+      print(http_error)
+      message("Error in connection to Ensembl:")
+      message(conditionMessage(e))
+      
+      if(is.na(http_error)) {
+        stop("Unknown error")
+      }
+      if(http_error >= 500) {
+        message(paste("Ensembl server-side error with host:", host))
+        if (stringr::str_detect(host, "grch37")) {
+          stop("Client-side error")
+        }
+        
+        host <- stringr::str_replace(host, "mart", "useast")
+        
+        message(paste("Trying new mirror:", host))
+        mart <- set_mart(dataset, host)
+      } else if (http_error >= 400 && http_error < 500) {
+        message("Client-side error. Check call/connection and retry")
+      } else {
+        message("Unknown error")
+      }
+      
+      NA
+    }
+  )
+  
+  return(mart)
+}
+
 #' Set Up Human Genome Annotation
 #'
 #' Configures the human genome annotation using BioMart based on the specified genome build.
@@ -113,15 +196,11 @@ force_canonical_autosomes <- function(df) {
 #' @export
 set_human_genome <- function(human_build = "grch38") {
   if (human_build == "grch38") {
-    human <- biomaRt::useMart(
-      biomart = "ensembl", dataset = "hsapiens_gene_ensembl",
-      host = human_genome_38_host_path
-    )
+    human <- try_mart(dataset = "hsapiens_gene_ensembl",
+                      host = human_genome_38_host_path)
   } else if (human_build == "grch37") {
-    human <- biomaRt::useMart(
-      biomart = "ensembl", dataset = "hsapiens_gene_ensembl",
-      host = human_genome_37_host_path
-    )
+    human <- try_mart(dataset = "hsapiens_gene_ensembl",
+                      host = human_genome_37_host_path)
   } else {
     stop("Human genome build must be grch37 or grch38")
   }
@@ -138,10 +217,8 @@ set_human_genome <- function(human_build = "grch38") {
 #' @export
 set_genomes <- function() {
   human <- set_human_genome()
-  mouse <- biomaRt::useMart(
-    biomart = "ensembl", dataset = "mmusculus_gene_ensembl",
-    host = mouse_genome_host_path
-  )
+  mouse <- try_mart(dataset = "mmusculus_gene_ensembl",
+                    host = mouse_genome_host_path)
 
   return(list(human, mouse))
 }
