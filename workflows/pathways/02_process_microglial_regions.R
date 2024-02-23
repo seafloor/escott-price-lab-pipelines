@@ -51,7 +51,7 @@ write_csv(gosselin_annotated,
                "gosselin_et_al_2017_microglia_grch38.csv"))
 write_csv(combined_annotated,
           here("output", "pathways",
-               "gosselin_et_al_2017_galatro_et_al_2017_merged_microglia_grch38.csv"))
+               "gal_goss_merged_microglia_grch38.csv"))
 
 # saving grch38 without APOE
 write_csv(exclude_apoe_region(galatro_annotated),
@@ -62,5 +62,5 @@ write_csv(exclude_apoe_region(gosselin_annotated),
                "gosselin_et_al_2017_microglia_grch38_no_apoe.csv"))
 write_csv(exclude_apoe_region(combined_annotated),
           here("output", "pathways",
-               "gosselin_et_al_2017_galatro_et_al_2017_merged_microglia_grch38_no_apoe.csv"))
+               "gal_goss_merged_microglia_grch38_no_apoe.csv"))
 

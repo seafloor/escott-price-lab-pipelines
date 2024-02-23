@@ -14,9 +14,9 @@ df_annotated <- get_regions_from_genes(raw_df[['ensembl_id']],
 # save grch38
 write_csv(df_annotated,
           here("output", "pathways",
-               "syngo_database_01_12_2023_release_synaptic_genes_grch38.csv"))
+               "syngo_01_12_2023_synaptic_genes_grch38.csv"))
 
 # save grch38 without APOE
 write_csv(exclude_apoe_region(df_annotated),
           here("output", "pathways",
-               "syngo_database_01_12_2023_release_synaptic_genes_grch38_no_apoe.csv"))
+               "syngo_01_12_2023_synaptic_genes_grch38_no_apoe.csv"))
