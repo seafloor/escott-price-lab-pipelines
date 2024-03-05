@@ -1,0 +1,36 @@
+# storage for all immutable global variables like coordinates of APOE region
+# see https://toml.io/en/ for info on TOML files
+
+title = "Package-wide constants"
+
+[mart_hosts]
+grch38 = "https://mart.ensembl.org/"
+grch37 = "https://grch37.ensembl.org/"
+grcm39 = "https://mart.ensembl.org/"
+
+[mart_mirrors]
+useast = "https://useast.ensembl.org/"
+uswest = "https://uswest.ensembl.org/"
+# asia = "https://asia.ensembl.org/"
+
+[fixed_regions]
+apoe = {chr = 19, start = 44400000, end = 46500000}
+mhc = {chr = 6, start = 25000000, end = 3300000}
+# mhc_extended = {}
+# igh = {}
+
+[column_labels]
+ensemble_columns_to_extract = [
+  "hgnc_symbol",
+  "ensembl_gene_id",
+  "chromosome_name",
+  "start_position",
+  "end_position"
+]
+clean_output_name = [
+  "hgnc_symbol",
+  "gene_ensemble",
+  "chr",
+  "gene_start",
+  "gene_end"
+]

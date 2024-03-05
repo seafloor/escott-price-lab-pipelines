@@ -4,10 +4,12 @@
 \alias{set_human_genome}
 \title{Set Up Human Genome Annotation}
 \usage{
-set_human_genome(human_build = "grch38")
+set_human_genome(human_build = "grch38", host = NULL)
 }
 \arguments{
 \item{human_build}{The human genome build to use, either "grch38" or "grch37".}
+
+\item{host}{The ensembl address for the genome. Default is NULL.}
 }
 \value{
 A BioMart object configured for the specified human genome build.

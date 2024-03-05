@@ -4,21 +4,24 @@
 \alias{try_mart}
 \title{Attempt to establish BioMart connection with error handling}
 \usage{
-try_mart(dataset, host)
+try_mart(dataset, host, attempt = 0)
 }
 \arguments{
 \item{dataset}{The dataset to connect to within the BioMart database.}
 
 \item{host}{The URL of the BioMart host to connect to initially.}
+
+\item{attempt}{The number of attempts to connect to the host. Default is 0. Increments cause a new mirror to be tried if available.}
 }
 \value{
 An object of class Mart representing the BioMart connection, or
-\code{NA} if the connection could not be established after error handling.
+\code{NULL} if the connection could not be established after error handling.
 }
 \description{
 Tries to connect to a specified BioMart database and dataset, with
 error handling for HTTP connection issues. If the initial connection fails
-due to a server-side error, it attempts to connect to a mirror site.
+due to a server-side error, it attempts to connect to a mirror site. Calls
+itself recursively to try new mirrors if the initial connection fails.
 }
 \examples{
 \dontrun{

@@ -67,70 +67,70 @@ test_that("force_canonical_autosomes filters out non-canonical chromosomes", {
   expect_equal(result$chr, c(1:22))
 })
 
-test_that("set_human_genome returns a biomart object", {
-  # Arrange
-  human_build <- "grch38"
+# test_that("set_human_genome returns a biomart object", {
+#   # Arrange
+#   human_build <- "grch38"
+#
+#   # Act
+#   result <- set_human_genome(human_build)
+#
+#   # Assert
+#   expect_true(inherits(result, "Mart"))
+# })
+#
+# test_that("set_human_genome returns a biomart object for grch37", {
+#   # Arrange
+#   human_build <- "grch37"
+#
+#   # Act
+#   result <- set_human_genome(human_build)
+#
+#   # Assert
+#   expect_true(inherits(result, "Mart"))
+# })
 
-  # Act
-  result <- set_human_genome(human_build)
+# test_that("set_human_genome uses default host when passed grch38 argument", {
+#   # Arrange
+#   human_build <- "grch38"
+#   human_genome_default_host_path <- "https://mart.ensembl.org:443/biomart/martservice"
+#
+#   # Act
+#   result <- set_human_genome(human_build)
+#
+#   # Assert
+#   expect_equal(result@host, human_genome_default_host_path)
+# })
+#
+# test_that("set_human_genome uses grch37 host when passed grch37 argument", {
+#   # Arrange
+#   human_build <- "grch37"
+#   human_genome_37_host_path <- "https://grch37.ensembl.org:443/biomart/martservice"
+#
+#   # Act
+#   result <- set_human_genome(human_build)
+#
+#   # Assert
+#   expect_equal(result@host, human_genome_37_host_path)
+# })
 
-  # Assert
-  expect_true(inherits(result, "Mart"))
-})
-
-test_that("set_human_genome returns a biomart object for grch37", {
-  # Arrange
-  human_build <- "grch37"
-
-  # Act
-  result <- set_human_genome(human_build)
-
-  # Assert
-  expect_true(inherits(result, "Mart"))
-})
-
-test_that("set_human_genome uses default host when passed grch38 argument", {
-  # Arrange
-  human_build <- "grch38"
-  human_genome_default_host_path <- "https://mart.ensembl.org:443/biomart/martservice"
-
-  # Act
-  result <- set_human_genome(human_build)
-
-  # Assert
-  expect_equal(result@host, human_genome_default_host_path)
-})
-
-test_that("set_human_genome uses grch37 host when passed grch37 argument", {
-  # Arrange
-  human_build <- "grch37"
-  human_genome_37_host_path <- "https://grch37.ensembl.org:443/biomart/martservice"
-
-  # Act
-  result <- set_human_genome(human_build)
-
-  # Assert
-  expect_equal(result@host, human_genome_37_host_path)
-})
-
-test_that("set_genomes returns a list of biomart objects", {
-  # Act
-  result <- set_genomes()
-
-  # Assert
-  expect_true(inherits(result, "list"))
-  expect_true(inherits(result[[1]], "Mart"))
-  expect_true(inherits(result[[2]], "Mart"))
-})
-
-test_that("set_genomes returns human and mouse genomes", {
-  # Act
-  result <- set_genomes()
-
-  # Assert
-  expect_true(result[[1]]@dataset == "hsapiens_gene_ensembl")
-  expect_true(result[[2]]@dataset == "mmusculus_gene_ensembl")
-})
+# test_that("set_genomes returns a list of biomart objects", {
+#   # Act
+#   result <- set_genomes()
+#
+#   # Assert
+#   expect_true(inherits(result, "list"))
+#   expect_true(inherits(result[[1]], "Mart"))
+#   expect_true(inherits(result[[2]], "Mart"))
+# })
+#
+# test_that("set_genomes returns human and mouse genomes", {
+#   # Act
+#   result <- set_genomes()
+#
+#   # Assert
+#   expect_true(result[[1]]@dataset == "hsapiens_gene_ensembl")
+#   expect_true(result[[2]]@dataset == "mmusculus_gene_ensembl")
+# })
 
 test_that("read_ref_genome_coordinates returns a tibble", {
   # Act

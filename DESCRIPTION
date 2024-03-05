@@ -24,6 +24,7 @@ Imports:
     tibble,
     janitor,
     magrittr,
+    configr,
     here
 Suggests:
     testthat (>= 3.0.0),

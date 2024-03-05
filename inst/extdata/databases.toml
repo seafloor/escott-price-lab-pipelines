@@ -1,0 +1,5 @@
+[dbsnp]
+url = "https://ftp.ncbi.nlm.nih.gov/snp/latest_release/VCF/GCF_000001405.40.gz"
+version = "156"
+description = "dbSNP database for GRCh38"
+check

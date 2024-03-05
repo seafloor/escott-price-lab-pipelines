@@ -4,10 +4,14 @@
 \alias{mouse_to_human}
 \title{Convert Mouse Genes to Human Genes}
 \usage{
-mouse_to_human(genes)
+mouse_to_human(genes, attempt = 0, genomes = NULL)
 }
 \arguments{
 \item{genes}{A character vector of mouse gene symbols (MGI symbols) to be mapped to human.}
+
+\item{attempt}{An integer specifying the number of attempts to retrieve the data from BioMart.}
+
+\item{genomes}{A list of two BioMart objects, the first for the human genome and the second for the mouse genome.}
 }
 \value{
 A tibble containing the mapped human genes and their attributes.

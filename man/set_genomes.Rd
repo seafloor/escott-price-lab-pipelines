@@ -4,7 +4,10 @@
 \alias{set_genomes}
 \title{Set Up Human and Mouse Genome Annotations}
 \usage{
-set_genomes()
+set_genomes(host = NULL)
+}
+\arguments{
+\item{host}{The ensembl address for the genome. Default is NULL.}
 }
 \value{
 A list containing BioMart objects for human and mouse genomes.
