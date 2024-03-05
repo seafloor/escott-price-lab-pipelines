@@ -1,6 +1,6 @@
 # Escott-Price Lab Pipelines
 
-![travis-build-status](https://app.travis-ci.com/seafloor/escott-price-lab-pipelines.svg?branch=main)
+[![R-CMD-check](https://github.com/seafloor/escott-price-lab-pipelines/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/seafloor/escott-price-lab-pipelines/actions/workflows/R-CMD-check.yaml)
 [![codecov](https://codecov.io/gh/seafloor/escott-price-lab-pipelines/graph/badge.svg?token=IE0NJEL213)](https://codecov.io/gh/seafloor/escott-price-lab-pipelines)
 [![lifecycle](https://lifecycle.r-lib.org/articles/figures/lifecycle-experimental.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
 
