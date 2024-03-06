@@ -25,7 +25,9 @@ Imports:
     janitor,
     magrittr,
     configr,
-    here
+    here,
+    httr,
+    rlist
 Suggests:
     testthat (>= 3.0.0),
     covr,
