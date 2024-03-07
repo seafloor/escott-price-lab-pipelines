@@ -27,7 +27,9 @@ Imports:
     configr,
     here,
     httr,
-    rlist
+    rlist,
+    progress,
+    assertthat
 Suggests:
     testthat (>= 3.0.0),
     covr,
