@@ -207,6 +207,20 @@ try_mart <- function(dataset, host, attempt = 0) {
   return(mart)
 }
 
+#' Read Database TOML file
+#'
+#' Reads a TOML configuration file containing download links and version numbers for external databases
+#'
+#' @return A list containing the parsed TOML configuration file
+#'
+#' @export
+read_database_toml <- function() {
+  my_file <- system.file("extdata", "databases.toml", package = "escottpricelabpipelines")
+  my_toml <- configr::read.config(file = my_file)
+  
+  return(my_toml)
+}
+
 #' Read Configuration File
 #'
 #' Reads a TOML configuration file containing package-wide constants
@@ -376,7 +390,7 @@ exclude_apoe_region <- function(data) {
 #'
 #' @export
 read_bim_file <- function(f) {
-  bim <- readr::read_tsv(f,
+  bim <- readr::read_table(f,
     col_names = c("chr", "id", "cm", "pos", "alt", "ref"),
     col_types = list(
       chr = readr::col_character(),

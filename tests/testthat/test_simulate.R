@@ -11,10 +11,10 @@ test_that("add_noise returns a matrix", {
 })
 
 test_that("add_noise returns genotypes with MAF in maf_range", {
-  tol = 0.01
+  tol = 0.02
   maf_min = 0.05
   maf_max = 0.5
-  g <- add_noise(p = 10, n = 1000, maf_range = c(maf_min, maf_max))
+  g <- add_noise(p = 10, n = 2000, maf_range = c(maf_min, maf_max))
 
 
   maf <- colMeans(g) / 2

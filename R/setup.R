@@ -28,14 +28,31 @@ install_dependencies <- function() {
   }
 }
 
+#' Install Required Databases
+#' 
+#' This function downloads and installs the required databases for the package.
+#' This must be run interactively, as it requires user input to confirm the download
+#' due to the size of some databases.
+#' 
+#' @export
 install_databases <- function() {
-  warning("Function install_databases() is not implemented yet")
-  # prompt user for install location if not /data
-  # update the toml if location not /data
+  if (!interactive()) {
+    message("This process requires user input. Please run interactively.")
+    return()
+  }
+  
+  # prompt user to confirm they want to download databases
+  message("This will download and install the following databases:")
+  message("  - liftover (approx. 50MB)")
+  message("Do you want to continue? (y/n)")
+  response <- readline()
+  if (tolower(response) != "y") {
+    message("Aborting.")
+    return()
+  }
 
-  # read toml file with up-to-date database information
-
-  # call separate install database functions
+  # install required liftover files
+  download_liftover()
 }
 
 download_reference_genome_coordinates <- function() {
@@ -62,10 +79,65 @@ download_dbsnp <- function(file_url, version = "156") {
 
 }
 
-download_liftover <- function() {
-
+#' Check for Liftover Files
+#' 
+#' This function checks for the presence of the required liftover files for the package.
+#' If the files are not present, it will attempt to download them by calling download_liftover().
+#' If there has already been an attempt to download the files, it will stop and remove the tar.gz file.
+#' 
+#' @param attempt The number of attempts made to download the liftover files. Default is 0.
+#' 
+#' @export
+check_for_liftover <- function(attempt = 0) {
+  # check that liftover files are present and non-empty
+  if (!file.exists(here::here("data", "liftover", "hg19ToHg38.over.chain.gz")) ||
+      !file.exists(here::here("data", "liftover", "hg38ToHg19.over.chain.gz")) ||
+      !file.size(here::here("data", "liftover", "liftOver")) ||
+      !file.size(here::here("data", "liftover", "liftOver_linux"))) {
+    if (attempt > 0) {
+      unlink(here::here("data", "liftover.tar.gz"))
+      stop("Liftover files not present. Download failed.")
+    } else {
+      download_liftover(attempt = 1)
+    }
+  }
 }
 
-download_chain_files <- function() {
-
+#' Install Required Liftover Files
+#' 
+#' This function downloads the required liftover files for the package,
+#' including chain files and the max/linux executables.
+#' 
+#' @export
+download_liftover <- function(attempt = 1) {
+  # get liftover download info
+  db_info <- read_database_toml()
+  
+  # download liftover
+  message("--> Downloading liftover and chain files (approx. 50Mb space after extracting)...")
+  download.file(db_info$liftover$url, destfile = here::here("data", "liftover.tar.gz"))
+  md5 <- tools::md5sum(here::here("data", "liftover.tar.gz"))
+  if (md5 != db_info$liftover$checksum) {
+    unlink(here::here("data", "liftover.tar.gz"))
+    stop("Downloaded file does not match expected md5sum")
+  } else {
+    message("done.")
+  }
+  
+  # extract and check liftover files
+  message("--> Extracting liftover files...", appendLF = FALSE)
+  tryCatch({
+    untar(here::here("data", "liftover.tar.gz"), exdir = here::here("data", "liftover"))
+  }, error = function(e) {
+    unlink(here::here("data", "liftover.tar.gz"))
+    stop("Error extracting liftover files: ", conditionMessage(e))
+  })
+  
+  # check liftover files
+  check_for_liftover(attempt = attempt)
+  
+  # remove tar.gz
+  unlink(here::here("data", "liftover.tar.gz"))
+  
+  message("done.")
 }

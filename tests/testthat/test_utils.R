@@ -154,7 +154,7 @@ test_that("exclude_apoe_region returns a tibble", {
   expect_true(inherits(result, "tbl_df"))
 })
 
-test_that("read_bim_file returns a tibble", {
+test_that("read_bim_file returns a tibble with expected shape and colnames", {
   # Arrange
   f <- testthat::test_path("test_data/test_bim.bim")
 
@@ -163,6 +163,8 @@ test_that("read_bim_file returns a tibble", {
 
   # Assert
   expect_true(inherits(result, "tbl_df"))
+  expect_equal(dim(result), c(5, 6))
+  expect_equal(colnames(result), c("chr", "id", "cm", "pos", "alt", "ref"))
 })
 
 test_that("read_regions_to_search returns a tibble", {

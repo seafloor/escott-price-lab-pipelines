@@ -2,4 +2,29 @@
 url = "https://ftp.ncbi.nlm.nih.gov/snp/latest_release/VCF/GCF_000001405.40.gz"
 version = "156"
 description = "dbSNP database for GRCh38"
-check
+
+[liftover]
+url = "https://cf-my.sharepoint.com/:u:/g/personal/smithmr5_cardiff_ac_uk/EdIVVV-2qZtKvI64jLI1QBsBTB1wH7HrlbTFnh5DxtChvw?download=1"
+version = "na"
+obtained = "27/04/2022"
+description = "Liftover chain files and mac/linux executables for GRCh37 to GRCh38 and GRCh38 to GRCh37 conversions"
+checksum = "241d93493a961f28c85eb98fe4749a45"
+preprocessing = "None"
+
+[gencode]
+fasta = {
+  url = "https://ftp.ebi.ac.uk/pub/databases/gencode/Gencode_human/release_45/GRCh38.primary_assembly.genome.fa.gz"
+  version = "Release 45 (GRCh38.p14)"
+  obtained = "na"
+  description = "Genome sequence, primary assembly (GRCh38). Nucleotide sequence of the GRCh38 primary genome assembly (chromosomes and scaffolds)"
+  checksum = ""
+  preprocessing = "None"
+}
+annotation = {
+  url = "https://ftp.ebi.ac.uk/pub/databases/gencode/Gencode_human/release_45/gencode.v45.primary_assembly.annotation.gff3.gz"
+  version = "Release 45 (GRCh38.p14)"
+  obtained = "na"
+  description = "Comprehensive gene annotation for the GRCh38 primary assembly (chromosomes and scaffolds) sequence regions."
+  checksum = ""
+  preprocessing = "None"
+}
