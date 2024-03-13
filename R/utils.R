@@ -216,8 +216,8 @@ try_mart <- function(dataset, host, attempt = 0) {
 #' @export
 read_database_toml <- function() {
   my_file <- system.file("extdata", "databases.toml", package = "escottpricelabpipelines")
-  my_toml <- configr::read.config(file = my_file)
-  
+  my_toml <- RcppTOML::parseTOML(my_file)
+
   return(my_toml)
 }
 
@@ -230,7 +230,7 @@ read_database_toml <- function() {
 #' @export
 read_config <- function() {
   my_file <- system.file("extdata", "config.toml", package = "escottpricelabpipelines")
-  my_toml <- configr::read.config(file = my_file)
+  my_toml <- RcppTOML::parseTOML(my_file)
 
   return(my_toml)
 }

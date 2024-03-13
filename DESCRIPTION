@@ -24,7 +24,7 @@ Imports:
     tibble,
     janitor,
     magrittr,
-    configr,
+    RcppTOML,
     here,
     httr,
     rlist,

@@ -9,7 +9,7 @@ call_liftover(
   chr = "chr",
   pos = "pos",
   from_build = "grch37",
-  to_build = "grc38",
+  to_build = "grch38",
   keep_original_positions = FALSE
 )
 }
