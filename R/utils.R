@@ -414,3 +414,19 @@ read_regions_to_search <- function(f) {
 
   return(regions)
 }
+
+
+get_afreq <- function(x) {
+  return(sum(x) / (2 * length(x)))
+}
+
+
+get_maf <- function(x) {
+  afreq <- afreq(x)
+
+  if (afreq > 0.5) {
+    return(1 - afreq)
+  } else {
+    return(afreq)
+  }
+}
