@@ -10,7 +10,7 @@ This is an r package and associated workflows for standardized pipelines tailore
 
 :exclamation: Please note this repository is a work in progress :exclamation: 
 
-We are currently in the process of migrating our scripts and standardising procedures across our group (:raised_hands: :raised_hands:), so everything here should be considered experimental. Anyone stumbling across this should exercise caution and not use the repository as the basis for analysis until the code reaches a more mature and stable phase.
+We are currently in the process of migrating our scripts and standardising procedures across our group :raised_hands: so everything here should be considered experimental. Anyone stumbling across this should exercise caution and not use the repository as the basis for analysis until the code reaches a more mature and stable phase.
 
 ### :cloud: Quick Overview
 
