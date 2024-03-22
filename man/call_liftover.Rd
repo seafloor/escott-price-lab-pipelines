@@ -27,7 +27,8 @@ call_liftover(
 \item{keep_original_positions}{A logical indicating whether to keep the original positions. Default is FALSE.}
 }
 \value{
-A list containing the lifted data and a data frame of unmapped variants
+A list containing the lifted data and a data frame of unmapped variants.
+If all variants were mapped then the second element is NULL.
 }
 \description{
 This function takes a data frame of variants and lifts them over between builds.

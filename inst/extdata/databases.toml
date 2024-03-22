@@ -1,3 +1,6 @@
+[installation]
+download_dir = "data"
+
 [dbsnp]
 url = "https://ftp.ncbi.nlm.nih.gov/snp/latest_release/VCF/GCF_000001405.40.gz"
 version = "156"

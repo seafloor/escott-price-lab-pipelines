@@ -20,5 +20,9 @@ A data frame with chromosome, position0, and position columns
 This function takes a data frame and creates a BED file from it.
 Requires only chromosome and position to do so.
 Note this assumes that for all positions you are working with
-SNPs and not indels, so here all positions are 1bp long.
+SNPs and not indels, and it formats using the 0-start, half-open
+system for BED files suitable for the command-line liftover tool.
+This means the original position is in the output pos column,
+while pos0 contains the 0-based count of the position. For a
+discussion of this, \href{https://genome-blog.gi.ucsc.edu/blog/2016/12/12/the-ucsc-genome-browser-coordinate-counting-systems/}{see the UCSC Genome Browser blog article}.
 }

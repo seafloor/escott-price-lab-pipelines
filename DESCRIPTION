@@ -22,10 +22,15 @@ Imports:
     tidyr,
     dplyr,
     tibble,
+    purrr,
+    glue,
     janitor,
     magrittr,
     RcppTOML,
-    here,
+    bigmemory,
+    genio,
+    glue,
+    here,   
     httr,
     rlist,
     progress,
@@ -36,6 +41,6 @@ Suggests:
     mockery,
     BiocManager
 Encoding: UTF-8
-Roxygen: list(markdown = TRUE)
+Roxygen: list(markdown = TRUE)  
 RoxygenNote: 7.3.1
 LazyData: true

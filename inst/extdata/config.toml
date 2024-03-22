@@ -3,6 +3,18 @@
 
 title = "Package-wide constants"
 
+[[tools]]
+[tools.location]
+path = "data"
+
+[tools.linux]
+plink1 = "https://s3.amazonaws.com/plink1-assets/plink_linux_x86_64_20231211.zip"
+plink2 = "https://s3.amazonaws.com/plink2-assets/plink2_linux_avx2_20240318.zip"
+
+[tools.mac]
+plink1 = "https://s3.amazonaws.com/plink1-assets/plink_mac_20231211.zip"
+plink2 = "https://s3.amazonaws.com/plink2-assets/plink2_mac_avx2_20240318.zip"
+
 [mart_hosts]
 grch38 = "https://mart.ensembl.org/"
 grch37 = "https://grch37.ensembl.org/"
@@ -11,6 +23,7 @@ grcm39 = "https://mart.ensembl.org/"
 [mart_mirrors]
 useast = "https://useast.ensembl.org/"
 uswest = "https://uswest.ensembl.org/"
+# drop asia mirror as frequently down/slow
 # asia = "https://asia.ensembl.org/"
 
 [fixed_regions]
@@ -34,3 +47,10 @@ clean_output_name = [
   "gene_start",
   "gene_end"
 ]
+
+[apoe_effect_sizes_europeans]
+kunkle_2019 = {e2 = -0.4673, e4 = 1.12}
+
+[apoe_allele_freqs_europeans]
+thousand_genomes_rounded = {rs429358_C = 0.16, rs7412_T = 0.06}
+ukbb_2021_release_rounded = {e2 = 0.08, e3 = 0.76, e4 = 0.16}

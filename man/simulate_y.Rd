@@ -2,7 +2,7 @@
 % Please edit documentation in R/simulate.R
 \name{simulate_y}
 \alias{simulate_y}
-\title{Simulate a phenotype give a matrix of genotypes}
+\title{Simulate a phenotype, given a matrix of genotypes}
 \usage{
 simulate_y(
   X,
@@ -11,11 +11,12 @@ simulate_y(
   k = 0.2,
   n_cases = NULL,
   n_controls = NULL,
+  is_transposed = FALSE,
   verbose = TRUE
 )
 }
 \arguments{
-\item{X}{A matrix of genotypes}
+\item{X}{A matrix or big.matrix of genotypes}
 
 \item{p_causal}{The proportion of causal SNPs. Default is 0.01.}
 
@@ -27,11 +28,20 @@ simulate_y(
 
 \item{n_controls}{The number of controls. Default is NULL.}
 
+\item{is_transposed}{Whether the matrix is transposed (SNPs as rows, individuals as columns).
+Default is FALSE (individuals as rows, SNPs as columns).}
+
 \item{verbose}{Whether to print the expected and actual heritability. Default is TRUE.}
 }
 \value{
-A list with three elements: the matrix of genotypes, the phenotype and a logical vector indicating
-which SNPs are causal.
+A list with five elements:
+\itemize{
+\item [\link{1}] the matrix or big.matrix of individuals*genotypes (X)
+\item [\link{2}] the binary phenotype (y)
+\item [\link{3}] the liability-scale phenotype (l)
+\item [\link{4}] a boolean vector indicating which SNPs are causal
+\item [\link{5}] a vector of SNP effect sizes on the liability scale
+}
 }
 \description{
 For a given heritability (on the liability scale) and a proportion of causal
@@ -39,5 +49,8 @@ SNPs, this function will simulate a phenotype based on the genotypes. Note
 that prevalence, k, and proportion causal SNPs, m, will both influence
 how easy it is to predict the phenotype from the genotypes, not just
 heritability. If n_cases and n_controls are not NULL, the function will
-downsample the cases and controls to the desired numbers.
+downsample the cases and controls to the desired numbers. This function
+is suitable for simulating an additive polygenic background without
+LD or exceptionally strong main effects from a single locus (i.e.
+APOE will need to be simulated separately)
 }

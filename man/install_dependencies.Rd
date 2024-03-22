@@ -2,12 +2,16 @@
 % Please edit documentation in R/setup.R
 \name{install_dependencies}
 \alias{install_dependencies}
-\title{Install Required Bioconductor Dependencies}
+\title{Install Required Dependencies}
 \usage{
-install_dependencies()
+install_dependencies(hpc = FALSE)
+}
+\arguments{
+\item{hpc}{If TRUE, checks modules can be loaded with appropriate tools first.}
 }
 \description{
-This function checks for and installs required Bioconductor packages for the package.
+This function checks for and installs required Bioconductor packages for the package,
+and any command-line tools needed, e.g. plink, bcftools etc.
 Currently, it ensures that \code{biomaRt} is installed, using \code{BiocManager}.
 }
 \details{

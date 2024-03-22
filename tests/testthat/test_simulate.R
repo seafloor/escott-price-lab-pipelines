@@ -80,15 +80,15 @@ test_that("replace_with_ld returns matrix of same shape and MAF as input", {
   expect_equal(colMeans(X_ld) / 2, colMeans(X) / 2)
 })
 
-test_that("simulate_y returns list of length 3", {
+test_that("simulate_y returns list of length 5", {
   X <- cbind(rbinom(1000, 2, 0.2), rbinom(1000, 2, 0.4))
   y <- simulate_y(X, p_causal = 1)
 
-  expect_equal(length(y), 3)
+  expect_equal(length(y), 5)
   expect_true(is.list(y))
 })
 
-test_that("simulate_y returns binary and logical vectors of correct shape", {
+test_that("simulate_y returns vectors of correct shape", {
   n = 1000
   X <- cbind(rbinom(n, 2, 0.2), rbinom(n, 2, 0.4))
   y <- simulate_y(X, p_causal = 1)
@@ -98,9 +98,17 @@ test_that("simulate_y returns binary and logical vectors of correct shape", {
   expect_true(all(y[[2]] %in% c(0, 1)))
   expect_equal(length(y[[2]]), n)
 
+  # check liability is correct shape
+  expect_true(is.numeric(y[[3]]))
+  expect_equal(length(y[[3]]), n)
+
   # check causal SNPs are logical and correct shape
-  expect_true(is.logical(y[[3]]))
-  expect_equal(length(y[[3]]), 2)
+  expect_true(is.logical(y[[4]]))
+  expect_equal(length(y[[4]]), 2)
+
+  # check effect sizes are correct shape
+  expect_true(is.numeric(y[[5]]))
+  expect_equal(length(y[[5]]), 2)
 })
 
 test_that("simulate_y returns the correct number of causal SNPs", {
@@ -110,14 +118,14 @@ test_that("simulate_y returns the correct number of causal SNPs", {
 
   # check 0 < p_causal < 1
   y <- simulate_y(X, p_causal = 0.5)
-  expect_equal(sum(y[[3]]), 2)
+  expect_equal(sum(y[[4]]), 2)
 
   # check p_causal == 0 raises error
   expect_error(simulate_y(X, p_causal = 0))
 
   # check p_causal == 1 works
   y <- simulate_y(X, p_causal = 1)
-  expect_equal(sum(y[[3]]), 4)
+  expect_equal(sum(y[[4]]), 4)
 })
 
 test_that("simulate_y returns the correct prevalence", {
@@ -156,25 +164,36 @@ test_that("simulate_y downsamples cases and controls correctly", {
              rbinom(n, 2, 0.2), rbinom(n, 2, 0.4))
 
   # no downsampling when both NULL
-  y <- simulate_y(X, p_causal = 0.5, n_cases = NULL, n_controls = NULL)
+  y <- simulate_y(X, p_causal = 0.5, k = 0.5,
+                  n_cases = NULL, n_controls = NULL)
   expect_equal(dim(X), dim(y[[1]]))
 
-  # downsample cases/controls correctly
+  # set up 500 cases and 500 controls
   n_cases = 100
   n_controls = 200
-  y <- simulate_y(X, p_causal = 0.5, n_cases = n_cases,
+  y <- simulate_y(X, p_causal = 0.5, k = 0.5,
+                  n_cases = n_cases,
                   n_controls = n_controls)
+
+  # downsample cases/controls correctly
   expect_equal(dim(y[[1]]), c(n_cases + n_controls, 4))
   expect_equal(sum(y[[2]] == 1), n_cases)
   expect_equal(sum(y[[2]] == 0), n_controls)
 
   # error when desired n_cases/n_controls is too high
-  expect_error(simulate_y(X, p_causal = 0.5, n_cases = n + 1, n_controls = n_controls))
-  expect_error(simulate_y(X, p_causal = 0.5, n_cases = n_cases, n_controls = n + 1))
+  expect_error(simulate_y(X, p_causal = 0.5,
+                          n_cases = n + 1,
+                          n_controls = n_controls))
+  expect_error(simulate_y(X, p_causal = 0.5,
+                          n_cases = n_cases,
+                          n_controls = n + 1))
 
-  # error when only one of n_cases or n_controls is null
-  expect_error(simulate_y(X, p_causal = 0.5, n_cases = n_cases, n_controls = NULL))
-  expect_error(simulate_y(X, p_causal = 0.5, n_cases = NULL, n_controls = n_controls))
+  # expect correct when only one of n_cases or n_controls is null
+  y <- simulate_y(X, p_causal = 0.5, k = 0.5, n_cases = n_cases, n_controls = NULL)
+  expect_equal(sum(y[[2]] == 1), n_cases)
+
+  y <- simulate_y(X, p_causal = 0.5, k = 0.5, n_cases = NULL, n_controls = n_controls)
+  expect_equal(sum(y[[2]] == 0), n_controls)
 })
 
 # test_that("simulate_y returns the correct heritability", {

@@ -25,7 +25,7 @@ The aim here is to simplify and standardize our processing of genetic data relat
 - **Post-GWAS (planned):** Functional interpretation of GWAS hits.
 - **Post-PRS (planned):** Interpretation and comparison of models.
 
-### :seedling: Getting Started
+### :seedling: Getting Started Locally
 
 Getting started is now as easy as 1, 2, 3.
 
@@ -34,10 +34,23 @@ Getting started is now as easy as 1, 2, 3.
 Code can be installed using devtools. Minimum R version is 4.1.0 - see the DESCRIPTION file for details. Paste the code below into the R console to get up and running.
 
 ```r
+# Ensure devtools is installed
 if (!require("devtools", quietly = TRUE)) {
-  install.packages("devtools")
+  install.packages("devtools", quiet = TRUE)
 }
-devtools::install_github("https://github.com/seafloor/escott-price-lab-pipelines")
+
+# Ensure BiocManager is installed for Bioconductor packages
+if (!require("BiocManager", quietly = TRUE)) {
+  install.packages("BiocManager", quiet = TRUE)
+}
+
+# Install biomaRt using BiocManager if it's not already installed
+if (!require("biomaRt", quietly = TRUE)) {
+  BiocManager::install("biomaRt", ask = FALSE, quiet = TRUE)
+}
+
+# Install escottpricelabpipelines
+devtools::install_github("https://github.com/seafloor/escott-price-lab-pipelines", upgrade = "never", quiet = TRUE)
 ```
 
 2. Install dependencies:
@@ -55,6 +68,33 @@ We use remote servers where possible to query large databases, but sometimes it'
 
 ```r
 install_databases()
+```
+
+### :seedling: Getting Started on HPC
+
+Procedure here is similar. First load your chosen R version on the cluster, and run an interactive session.
+
+```r
+module load R
+R
+```
+
+Then install as above. The big difference is in installing dependencies and databases. This is because we need to account for you being able to load module or store data elsewhere in an HPC environment. To do this you can add the `hpc = TRUE` argument and it will check for module availability and prompt the user to give a directory (something like a /scratch or /workdir directory) to install the databases as the home directory on an HPC server usually doesn't allow for much storage.
+
+**Install dependencies for HPC:**
+
+```r
+library(escottpricelabpipelines)
+install_dependencies(hpc = TRUE)
+```
+
+**Install required databases for HPC:**
+
+```r
+# change to directory suitable for holding
+# large databases on your server. Note it 
+# must be accessible from compute nodes.
+install_databases("/scratch/user/escottpricelabpipelines", hpc = TRUE)
 ```
 
 ### Genome build
