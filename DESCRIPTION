@@ -34,7 +34,8 @@ Imports:
     httr,
     rlist,
     progress,
-    assertthat
+    assertthat,
+    feather
 Suggests:
     testthat (>= 3.0.0),
     covr,
