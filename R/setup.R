@@ -62,7 +62,7 @@ set_database_dir <- function(path, recursive = FALSE) {
   }
 
   # read the toml file and overwrite db path
-  db_toml <- system.file("extdata", "databases.toml", package = "escottpricelabpipelines")
+  db_toml <- system.file("inst", "extdata", "databases.toml", package = "escottpricelabpipelines")
   f <- file(db_toml, open = "r+")
   header <- readLines(f, n = 2)
   header[2] <- paste("download_dir = ", "\"", "/my/path/to/stuff", "\"", sep = "")
@@ -100,7 +100,7 @@ get_database_dir <- function() {
   db_path <- read_database_toml()$installation
 
   if (db_path == "data") {
-    db_path <- here::here("data")
+    db_path <- system.file("data", package = "escottpricelabpipelines")
   }
 
   return(db_path)
@@ -187,17 +187,19 @@ download_dbsnp <- function(file_url, version = "156") {
 check_for_liftover <- function(attempt = 0) {
   db_path <- get_database_dir()
 
-  # check that liftover files are present and non-empty
+  # check that liftover files are present
   if (!file.exists(file.path(db_path, "liftover", "hg19ToHg38.over.chain.gz")) ||
       !file.exists(file.path(db_path, "liftover", "hg38ToHg19.over.chain.gz")) ||
-      !file.size(file.path(db_path, "liftover", "liftOver")) ||
-      !file.size(file.path(db_path, "liftover", "liftOver_linux"))) {
+      !file.exists(file.path(db_path, "liftover", "liftOver")) ||
+      !file.exists(file.path(db_path, "liftover", "liftOver_linux"))) {
     if (attempt > 0) {
       unlink(file.path(db_path, "liftover.tar.gz"))
       stop("Liftover files not present. Download failed.")
     } else {
       download_liftover(attempt = 1)
     }
+  } else {
+    message("Liftover files found.")
   }
 }
 
@@ -216,11 +218,11 @@ download_liftover <- function(attempt = 1) {
   message("--> Downloading liftover and chain files (approx. 50Mb space after extracting)...")
   download.file(db_info$liftover$url, destfile = file.path(db_path, "liftover.tar.gz"))
   md5 <- tools::md5sum(file.path(db_path, "liftover.tar.gz"))
-  if (md5 != db_info$liftover$checksum) {
+  if (as.vector(md5) == db_info$liftover$checksum) {
+    message("done.")
+  } else {
     unlink(file.path(db_path, "liftover.tar.gz"))
     stop("Downloaded file does not match expected md5sum")
-  } else {
-    message("done.")
   }
 
   # extract and check liftover files
@@ -404,7 +406,7 @@ use_singularity_container <- function(container_path) {
 install_plink2 <- function() {
   tmp <- tempfile()
   config <- read_config()
-  out_dir <- here::here(config$tools[[1]]$location$path)
+  out_dir <- system.file(config$tools[[1]]$location$path, package = "escottpricelabpipelines")
 
   # check if on mac Darwin
   if (Sys.info()["sysname"] == "Darwin") {
@@ -452,7 +454,7 @@ install_tool <- function(tool) {
 #' @export
 update_bash_profile <- function() {
   config <- read_config()
-  out_dir <- here::here(config$tools[[1]]$location$path)
+  out_dir <- system.file(config$tools[[1]]$location$path, package = "escottpricelabpipelines")
   cli_tool_line <- paste0("export PATH=$PATH:", out_dir)
 
   f <- file("~/.bash_profile", open = "r")

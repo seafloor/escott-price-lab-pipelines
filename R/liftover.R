@@ -77,47 +77,65 @@ read_unmapped_variants <- function(filename) {
 #' @param from_build The build to lift over from. Default is "grch37".
 #' @param to_build The build to lift over to. Default is "grch38".
 #' @param keep_original_positions A logical indicating whether to keep the original positions. Default is FALSE.
+#' @param check_liftover_installed A logical indicating whether to check for the liftover executable. Default is TRUE.
 #'
 #' @return A list containing the lifted data and a data frame of unmapped variants.
 #' If all variants were mapped then the second element is NULL.
 #'
 #' @export
 call_liftover <- function(data, chr = "chr", pos = "pos", from_build = "grch37", to_build = "grch38",
-                          keep_original_positions = FALSE) {
+                          keep_original_positions = FALSE, check_liftover_installed = TRUE) {
   # check for liftover files and prompt install if absent
-  check_for_liftover()
-
+  if(check_liftover_installed) {
+    check_for_liftover()
+  }
+  
   # check if function is being called from mac or linux
   if (Sys.info()["sysname"] == "Darwin") {
-    liftOver <- here::here("data", "liftover", "liftOver")
+    liftOver <- system.file("data", "liftover", "liftOver", package = "escottpricelabpipelines")
   } else {
-    liftOver <- here::here("data", "liftover", "liftOver_linux")
+    liftOver <- system.file("data", "liftover", "liftOver_linux", package = "escottpricelabpipelines")
   }
 
   # assert options are valid for builds and set chain file
   if (from_build == "grch37" && to_build == "grch38") {
-    chain_file <- here::here("data", "liftover", "hg19ToHg38.over.chain.gz")
+    chain_file <- system.file("data", "liftover", "hg19ToHg38.over.chain.gz", package = "escottpricelabpipelines")
   } else if (from_build == "grch38" && to_build == "grch37") {
-    chain_file <- here::here("data", "liftover", "hg38ToHg19.over.chain.gz")
+    chain_file <- system.file("data", "liftover", "hg38ToHg19.over.chain.gz", package = "escottpricelabpipelines")
   } else {
     stop("Invalid build options. From/to must be grch37 or grch38.")
   }
 
   # write a temporary bed file for use with liftover
   bed <- to_bed(data, chrom = chr, position = pos)
-  temp_in <- tempfile(pattern = from_build, fileext = ".bed")
+  temp_in <- tempfile(pattern = from_build, fileext = ".bed", tmpdir = tempdir())
   readr::write_tsv(bed, temp_in, col_names = FALSE)
+  
+  # make sure the input bed file has been created
+  if (!file.exists(temp_in)) {
+    stop("Temporary input bed file not created: ", temp_in)
+  }
+  
 
   # create a tempfile for the liftover output
-  temp_out <- tempfile(pattern = to_build, fileext = ".bed")
-  temp_unmapped <- tempfile(pattern = to_build, fileext = ".unmapped")
-
-  # make a system2 call to the liftover executable with given chain file
-  system2(command = liftOver,
+  temp_out <- tempfile(pattern = to_build, fileext = ".bed", tmpdir = tempdir())
+  temp_unmapped <- tempfile(pattern = to_build, fileext = ".unmapped", tmpdir = tempdir())
+  
+  if (!file.exists(liftOver)) {
+    stop(glue::glue("Liftover executable not found in path {liftOver}",
+                    "Please check the path or run check_for_liftover()."))
+  }
+  
+  # make a system2 call to the liftOver executable with given chain file
+  result <- system2(command = liftOver,
           args = c(temp_in,
                    chain_file,
                    temp_out,
                    temp_unmapped))
+  
+  if (result != 0) {
+    stop("Liftover command failed with message: ", paste(result, collapse = "\n"))
+  }
 
   # read in the liftover output
   bed_lifted <- readr::read_table(temp_out, col_names = FALSE)

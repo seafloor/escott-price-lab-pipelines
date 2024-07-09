@@ -10,7 +10,8 @@ call_liftover(
   pos = "pos",
   from_build = "grch37",
   to_build = "grch38",
-  keep_original_positions = FALSE
+  keep_original_positions = FALSE,
+  check_liftover_installed = TRUE
 )
 }
 \arguments{
@@ -25,6 +26,8 @@ call_liftover(
 \item{to_build}{The build to lift over to. Default is "grch38".}
 
 \item{keep_original_positions}{A logical indicating whether to keep the original positions. Default is FALSE.}
+
+\item{check_liftover_installed}{A logical indicating whether to check for the liftover executable. Default is TRUE.}
 }
 \value{
 A list containing the lifted data and a data frame of unmapped variants.

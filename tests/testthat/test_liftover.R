@@ -67,7 +67,7 @@ test_that("call_liftover returns a list of tibbles", {
   )
 
   # Act
-  result <- call_liftover(df_grch37)
+  result <- call_liftover(df_grch37, check_liftover_installed = FALSE)
 
   # Asserts
   expect_true(inherits(result, "list"))
@@ -98,12 +98,14 @@ test_that("call_liftover correctly maps between grch37 and grch38", {
   )
 
   # Assert lift to 38 is correct
-  result <- call_liftover(df_grch37, from_build = 'grch37', to_build = 'grch38')
+  result <- call_liftover(df_grch37, from_build = 'grch37', to_build = 'grch38',
+                          check_liftover_installed = FALSE)
   expect_equal(result[[1]], df_grch38)
   expect_true(is.null(result[[2]]))
 
   # Assert lift to 37 is correct
-  result <- call_liftover(df_grch38, from_build = 'grch38', to_build = 'grch37')
+  result <- call_liftover(df_grch38, from_build = 'grch38', to_build = 'grch37',
+                          check_liftover_installed = FALSE)
   expect_equal(result[[1]], df_grch37)
   expect_true(is.null(result[[2]]))
 })
@@ -132,7 +134,7 @@ test_that("call_liftover drops unmapped variants", {
   )
 
   # Act
-  result <- call_liftover(df_grch37)
+  result <- call_liftover(df_grch37, check_liftover_installed = FALSE)
 
   # Assert
   expect_equal(result[[1]], expected_mapped)
