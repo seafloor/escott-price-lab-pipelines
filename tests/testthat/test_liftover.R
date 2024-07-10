@@ -44,6 +44,8 @@ test_that("to_bed handles alternative column names", {
 })
 
 test_that("read_unmapped_variants returns a tibble with expected output", {
+  # skip_on_ci()
+  
   # Arrange
   f <- testthat::test_path("test_data/liftover_example.unmapped")
   result <- read_unmapped_variants(f)
@@ -56,6 +58,8 @@ test_that("read_unmapped_variants returns a tibble with expected output", {
 })
 
 test_that("call_liftover returns a list of tibbles", {
+  # skip_on_ci()
+  
   # Arrange tibble of top AD SNPs
   # grch37 and grch38 coordinates taken manually from dbSNP v156
   df_grch37 <- tibble::tribble(
@@ -79,6 +83,8 @@ test_that("call_liftover returns a list of tibbles", {
 })
 
 test_that("call_liftover correctly maps between grch37 and grch38", {
+  # skip_on_ci()
+  
   # Arrange tibble of top AD SNPs
   # grch37 and grch38 coordinates taken manually from dbSNP v156
   df_grch37 <- tibble::tribble(
@@ -111,6 +117,8 @@ test_that("call_liftover correctly maps between grch37 and grch38", {
 })
 
 test_that("call_liftover drops unmapped variants", {
+  # skip_on_ci()
+  
   # Arrange tibble of top AD SNPs
   # grch37 and grch38 coordinates taken manually from dbSNP v156
   df_grch37 <- tibble::tribble(

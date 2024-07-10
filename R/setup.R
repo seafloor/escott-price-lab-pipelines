@@ -100,7 +100,7 @@ get_database_dir <- function() {
   db_path <- read_database_toml()$installation
 
   if (db_path == "data") {
-    db_path <- system.file("data", package = "escottpricelabpipelines")
+    db_path <- here::here(db_path)
   }
 
   return(db_path)
@@ -185,7 +185,7 @@ download_dbsnp <- function(file_url, version = "156") {
 #'
 #' @export
 check_for_liftover <- function(attempt = 0) {
-  db_path <- get_database_dir()
+  db_path <- system.file("extdata", package="escottpricelabpipelines")
 
   # check that liftover files are present
   if (!file.exists(file.path(db_path, "liftover", "hg19ToHg38.over.chain.gz")) ||
@@ -212,7 +212,7 @@ check_for_liftover <- function(attempt = 0) {
 download_liftover <- function(attempt = 1) {
   # get liftover download info
   db_info <- read_database_toml()
-  db_path <- get_database_dir()
+  db_path <- system.file("extdata", package="escottpricelabpipelines")
 
   # download liftover
   message("--> Downloading liftover and chain files (approx. 50Mb space after extracting)...")
@@ -406,7 +406,7 @@ use_singularity_container <- function(container_path) {
 install_plink2 <- function() {
   tmp <- tempfile()
   config <- read_config()
-  out_dir <- system.file(config$tools[[1]]$location$path, package = "escottpricelabpipelines")
+  out_dir <- here::here(config$tools[[1]]$location$path)
 
   # check if on mac Darwin
   if (Sys.info()["sysname"] == "Darwin") {
@@ -454,7 +454,7 @@ install_tool <- function(tool) {
 #' @export
 update_bash_profile <- function() {
   config <- read_config()
-  out_dir <- system.file(config$tools[[1]]$location$path, package = "escottpricelabpipelines")
+  out_dir <- here::here(config$tools[[1]]$location$path)
   cli_tool_line <- paste0("export PATH=$PATH:", out_dir)
 
   f <- file("~/.bash_profile", open = "r")

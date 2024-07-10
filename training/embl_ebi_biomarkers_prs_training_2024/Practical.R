@@ -111,7 +111,7 @@ prs <- merge(prs, prscs, by=c("FID", "IID"), sort=F, all=F)
 
 ### Adjust PRS for principal components (PCs)
 
-cov <- fread("AD_GWAS_covariates_biomarkers.txt", header=T, data.table=F)
+cov <- fread("AD_GWAS_covars.txt", header=T, data.table=F)
 
 m <- merge(cov, prs, by=c("FID", "IID"), sort=F, all=F)
 
@@ -236,7 +236,7 @@ colnames(prscs)[3] <- "PRScs.noAPOE"
 
 ### Adjust PRS for principal components (PCs)
 
-cov <- fread("AD_GWAS_covariates_biomarkers.txt", header=T, data.table=F)
+cov <- fread("AD_GWAS_covars.txt", header=T, data.table=F)
 
 m <- merge(cov, prscs, by=c("FID", "IID"), sort=F, all=F)
 

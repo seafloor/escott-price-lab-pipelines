@@ -91,17 +91,18 @@ call_liftover <- function(data, chr = "chr", pos = "pos", from_build = "grch37",
   }
   
   # check if function is being called from mac or linux
+  db_path <- system.file("extdata", package="escottpricelabpipelines")
   if (Sys.info()["sysname"] == "Darwin") {
-    liftOver <- system.file("data", "liftover", "liftOver", package = "escottpricelabpipelines")
+    liftOver <- file.path(db_path, "liftover", "liftOver")
   } else {
-    liftOver <- system.file("data", "liftover", "liftOver_linux", package = "escottpricelabpipelines")
+    liftOver <- file.path(db_path, "liftover", "liftOver_linux")
   }
 
   # assert options are valid for builds and set chain file
   if (from_build == "grch37" && to_build == "grch38") {
-    chain_file <- system.file("data", "liftover", "hg19ToHg38.over.chain.gz", package = "escottpricelabpipelines")
+    chain_file <- file.path(db_path, "liftover", "hg19ToHg38.over.chain.gz")
   } else if (from_build == "grch38" && to_build == "grch37") {
-    chain_file <- system.file("data", "liftover", "hg38ToHg19.over.chain.gz", package = "escottpricelabpipelines")
+    chain_file <- file.path(db_path, "liftover", "hg38ToHg19.over.chain.gz")
   } else {
     stop("Invalid build options. From/to must be grch37 or grch38.")
   }
