@@ -399,7 +399,8 @@ read_bim_file <- function(f) {
       pos = readr::col_integer(),
       alt = readr::col_character(),
       ref = readr::col_character()
-    )
+    ),
+    comment = "#"
   )
 
   return(bim)

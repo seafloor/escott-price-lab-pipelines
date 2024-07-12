@@ -17,7 +17,7 @@ Imports:
     biomaRt,
     box,
     tibble,
-    readr,
+    readr (>= 2.0.0),
     readxl,
     tidyr,
     dplyr,
