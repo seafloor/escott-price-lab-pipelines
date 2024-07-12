@@ -27,6 +27,7 @@ jobs:
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
       R_KEEP_PKG_SOURCE: yes
+      LC_ALL: C.UTF-8  # Ensure consistent encoding
 
     steps:
       - uses: actions/checkout@v4
@@ -57,6 +58,13 @@ jobs:
         with:
           extra-packages: any::rcmdcheck
           needs: check
+
+      - name: List files for debugging
+        run: ls -R
+
+      - name: Print file content for debugging
+        run: cat test_data/test_bim.bim || echo "File not found"
+        shell: bash
 
       - name: Run check
         uses: r-lib/actions/check-r-package@v2
