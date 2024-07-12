@@ -25,12 +25,16 @@ jobs:
           - {os: ubuntu-latest,   r: 'oldrel-1'}
 
     env:
+      LANG: en_US.UTF-8  # Ensure consistent encoding
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
       R_KEEP_PKG_SOURCE: yes
-      LC_ALL: C.UTF-8  # Ensure consistent encoding
 
     steps:
       - uses: actions/checkout@v4
+
+      - name: Install required locale
+        if: runner.os == 'Linux'
+        run: sudo apt-get install -y locales && sudo locale-gen en_US.UTF-8
 
       - name: Setup pandoc
         uses: r-lib/actions/setup-pandoc@v2
