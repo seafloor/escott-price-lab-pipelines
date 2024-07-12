@@ -400,7 +400,8 @@ read_bim_file <- function(f) {
       alt = readr::col_character(),
       ref = readr::col_character()
     ),
-    comment = "#"
+    comment = "#",
+    locale = locale(encoding = "UTF-8")
   )
 
   return(bim)
