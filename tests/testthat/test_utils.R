@@ -156,14 +156,13 @@ test_that("exclude_apoe_region returns a tibble", {
 
 test_that("read_bim_file returns a tibble with expected shape and colnames", {
   # Arrange
-  f <- testthat::test_path("test_data/test_bim.bim")
+  f <- testthat::test_path("test_data/bim.test")
 
   # Act
   result <- read_bim_file(f)
 
   # Assert
   expect_true(inherits(result, "tbl_df"))
-  print(result) # debugging
   expect_equal(dim(result), c(5, 6))
   expect_equal(colnames(result), c("chr", "id", "cm", "pos", "alt", "ref"))
 })
