@@ -156,19 +156,6 @@ test_that("exclude_apoe_region returns a tibble", {
 
 test_that("read_bim_file returns a tibble with expected shape and colnames", {
   # Arrange
-  # Function to create and write the tibble to a file
-  # df <- tibble::tibble(
-  #     chr = c("1", "2", "X", "Y", "MT"),
-  #     id = c("rs1234", "rs3456", "rs4567", "rs56789", "rs789"),
-  #     cm = c(0, 0, 0, 0, 0),
-  #     pos = c(1000, 2000, 1000, 10000, 9000),
-  #     alt = c("A", "C", "C", "A", "C"),
-  #     ref = c("T", "G", "T", "G", "G")
-  #   )
-  # 
-  # # overwrite the file if it exists
-  # readr::write_tsv(df, "test_data/test_bim.bim",
-  #                  col_names = TRUE)
   f <- testthat::test_path("test_data/test_bim.bim")
 
   # Act
@@ -179,8 +166,6 @@ test_that("read_bim_file returns a tibble with expected shape and colnames", {
   print(result) # debugging
   expect_equal(dim(result), c(5, 6))
   expect_equal(colnames(result), c("chr", "id", "cm", "pos", "alt", "ref"))
-  
-  # unlink(f)
 })
 
 test_that("read_regions_to_search returns a tibble", {
