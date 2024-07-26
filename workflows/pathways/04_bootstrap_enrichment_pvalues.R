@@ -13,9 +13,6 @@
 # calculate SP_k (SIMULATED PROPORTION at iteration k) as above where c1 is now
 # the number of SNPs form C in these randomly selected regions.
 # Final p-value is proportion of random simulations where SP_k>=AP.
-
-# Notes:
-# - The number of simulations should be large enough to get a stable p-value
 #######################################################
 
 ################# load libraries #################
@@ -28,12 +25,12 @@ box::use(rdr = readr[write_csv, cols, col_character],
                          clusterEvalQ, clusterExport, parApply],
          eplp = escottpricelabpipelines[
            read_ref_genome_coordinates, force_canonical_autosomes,
-           read_bim_file, read_regions_to_search, read_top_snps,
+           read_bim_file, read_regions_to_search,
            calculate_proportion, sample_regions_from_list])
 
 ################# functions for region matching #################
 # read in rsid list of top SNPs as vector
-read_top_snps <- function(f){
+read_top_snps <- function(f, all_snps){
   top_snp_rsids <- rdr$read_csv(f,
                                 col_names = FALSE,
                                 col_types = rdr$cols(.default = rdr$col_character()))[['X1']]
@@ -44,20 +41,30 @@ read_top_snps <- function(f){
 
 #### run bootstrapping
 # set simulation parameters
+# example number - increase for more stable p-value
 n_bootstrap <- 100
 pathway_file <- here$here("output", "pathways",
-                          "syngo_database_01_12_2023_release_synaptic_genes_grch38.csv")
+                          "syngo_01_12_2023_synaptic_genes_grch38.csv")
 
 # start parallel cluster and load essential libraries on it
 cl <- prll$makeCluster(prll$detectCores())
 prll$clusterEvalQ(cl, { library(dplyr) })
 
-# read data into cluster
+# read the reference genome coordinates (supplied here in a convenience function)
+# these are pre-processed from the grch38p14 sequence report 
+# available here: https://www.ncbi.nlm.nih.gov/datasets/genome/GCF_000001405.40/
 ref_coords <- eplp$read_ref_genome_coordinates()
-all_snps <- eplp$force_canonical_autosomes(eplp$read_bim_file())
-  
 
-regions_to_search <- eplp$read_regions_to_search("dummy_region")
+# read in a bim file of all SNPs in the dataset under consideration
+# should be everything that passed QC and went into the analysis
+# here we use a non-standard file name (no .bim extension) purely because
+# otherwise it is automatically tracked by git LFS
+bf <- here$here("inst", "extdata", "annotations", "minimal_bim_file.txt")
+all_snps <- eplp$force_canonical_autosomes(eplp$read_bim_file(bf))
+
+# read in the regions to search for top SNPs (genes to check for enrichment in)
+# set f="dummy_region" to use a dummy region file for testing
+regions_to_search <- eplp$read_regions_to_search(f=pathway_file)
 top_snp_pos <- eplp$read_top_snps()
 
 # export data to cluster
