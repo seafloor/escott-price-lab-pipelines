@@ -324,8 +324,10 @@ set_genomes <- function(host = NULL) {
 #' @return A dataframe containing reference genome coordinates.
 #'
 #' @export
-read_ref_genome_coordinates <- function() {
-  message("Note: Loaded reference genome coordinates are hard-coded to GRCh38.p14")
+read_ref_genome_coordinates <- function(warn = TRUE) {
+  if(warn) {
+    message("Note: Loaded reference genome coordinates are hard-coded to GRCh38.p14")
+  }
 
   reference_file <- "grch38p14_sequence_report.tsv"
   reference_path <- system.file("extdata", "annotations",
@@ -421,7 +423,7 @@ read_regions_to_search <- function(f) {
   if (f == "dummy_region") {
     regions <- tibble::tribble(
       ~hgnc_symbol, ~gene_ensemble, ~chr, ~gene_start, ~gene_end, ~gene_length_bp,
-      HGNCTESTCHR19, ENSIDTESTCHR19, 19, 1, 50000000, 50000000
+      "HGNCTESTCHR19", "ENSIDTESTCHR19", 19, 1, 50000000, 50000000
     )
   } else {
     regions <- readr::read_csv(f) %>%
