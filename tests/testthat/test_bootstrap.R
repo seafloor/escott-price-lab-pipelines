@@ -13,9 +13,9 @@ test_that("calculate_proportion calculates correctly", {
 test_that("sample_region samples correctly", {
   set.seed(42)
   ref_coords <- read_ref_genome_coordinates()
-  
+
   region <- sample_region(1000, ref_coords)
-  
+
   expect_equal(length(region), 3)
   expect_true(region[1] %in% 1:22)
   expect_true(region[2] >= 1)
@@ -48,10 +48,10 @@ test_that("get_coverage_for_chromosome calculates percentages", {
   set.seed(42)
   chrom <- 1
   ref_coords <- read_ref_genome_coordinates()
-  
+
   data <- sample_dummy_regions(n_regions = 100, min_length = 1000, max_length = 2000)
   coverage <- get_coverage_for_chromosome(data, ref_coords, chrom)
-  
+
   expect_true(coverage >= 0 && coverage <= 100)
 })
 
@@ -65,8 +65,8 @@ test_that("check_if_snps_in_region works correctly", {
     CHR = c(1, 1, 1, 1, 1, 1, 1),
     POS = c(50000, 90000, 100000, 150000, 200000, 200010, 250000)
   )
-  
-  snps_in_region <- check_if_snps_in_region(snps_to_check, region_row)
+
+  snps_in_region <- check_if_snps_in_region(region_row, snps_to_check)
   expect_true(snps_in_region == 5)
 })
 

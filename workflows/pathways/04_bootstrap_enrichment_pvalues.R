@@ -18,7 +18,8 @@
 ################# load libraries #################
 # load packages with box
 box::use(rdr = readr[write_csv, cols, col_character],
-         dplyr = dplyr[filter],
+         dplyr = dplyr[filter, select, rename_all],
+         stringr = stringr[str_to_upper],
          magrittr[`%>%`],
          here = here[here],
          prll = parallel[makeCluster, detectCores, stopCluster,
@@ -26,19 +27,10 @@ box::use(rdr = readr[write_csv, cols, col_character],
          eplp = escottpricelabpipelines[
            read_ref_genome_coordinates, force_canonical_autosomes,
            read_bim_file, read_regions_to_search,
-           calculate_proportion, sample_regions_from_list])
+           calculate_proportion, sample_regions_from_list,
+           check_if_snps_in_region])
 
-################# functions for region matching #################
-# read in rsid list of top SNPs as vector
-read_top_snps <- function(f, all_snps){
-  top_snp_rsids <- rdr$read_csv(f,
-                                col_names = FALSE,
-                                col_types = rdr$cols(.default = rdr$col_character()))[['X1']]
-  positions <- dplyr$filter(all_snps, ID %in% top_snp_rsids)
-
-  return(positions)
-}
-
+################# functions for region matching #################s
 #### run bootstrapping
 # set simulation parameters
 # example number - increase for more stable p-value
@@ -51,7 +43,7 @@ cl <- prll$makeCluster(prll$detectCores())
 prll$clusterEvalQ(cl, { library(dplyr) })
 
 # read the reference genome coordinates (supplied here in a convenience function)
-# these are pre-processed from the grch38p14 sequence report 
+# these are pre-processed from the grch38p14 sequence report
 # available here: https://www.ncbi.nlm.nih.gov/datasets/genome/GCF_000001405.40/
 ref_coords <- eplp$read_ref_genome_coordinates()
 
@@ -65,7 +57,14 @@ all_snps <- eplp$force_canonical_autosomes(eplp$read_bim_file(bf))
 # read in the regions to search for top SNPs (genes to check for enrichment in)
 # set f="dummy_region" to use a dummy region file for testing
 regions_to_search <- eplp$read_regions_to_search(f=pathway_file)
-top_snp_pos <- eplp$read_top_snps()
+
+# read in top SNP rsids as a vector
+# here using a random selection of 100 snps from the bim file
+top_snp_rsids <- sample(all_snps[['id']], 100, replace=FALSE)
+top_snp_pos <- all_snps %>%
+  dplyr$filter(id %in% top_snp_rsids) %>%
+  dplyr$select(chr, pos) %>%
+  dplyr$rename_all(stringr$str_to_upper)
 
 # export data to cluster
 prll$clusterExport(cl, 'ref_coords')
@@ -74,8 +73,11 @@ prll$clusterExport(cl, 'regions_to_search')
 prll$clusterExport(cl, 'top_snp_pos')
 
 # get actual proportion of top SNPs in regions
-n_in_true_regions <- prll$parApply(cl = cl, X = regions_to_search, MARGIN = 1, FUN = check_if_snps_in_region)
-actual_proportion <- eplp$calculate_proportion(n_in_true_regions, regions_to_search[['bp_len']])
+n_in_true_regions <- prll$parApply(cl = cl, X = regions_to_search,
+                                   MARGIN = 1, FUN = eplp$check_if_snps_in_region,
+                                   snps_to_check = top_snp_pos)
+actual_proportion <- eplp$calculate_proportion(n_in_true_regions,
+                                               abs(regions_to_search[['gene_length_bp']]))
 
 # empty mat for storing bootstrap results
 null_proportions <- rep(NA, times=n_bootstrap)
@@ -84,17 +86,19 @@ null_proportions <- rep(NA, times=n_bootstrap)
 for(k in 1:n_bootstrap) {
 
   # randomly sample regions of equal length and export to cluster
-  null_regions_to_search <- eplp$sample_regions_from_list(regions_to_search[['bp_len']])
+  null_regions_to_search <- eplp$sample_regions_from_list(abs(regions_to_search[['gene_length_bp']]))
   prll$clusterExport(cl, 'null_regions_to_search')
 
   # get number of top SNPs present in random region
   n_in_null_regions <- prll$parApply(cl = cl, X = null_regions_to_search,
-                                     MARGIN = 1, FUN = check_if_snps_in_region)
+                                     MARGIN = 1, FUN = check_if_snps_in_region,
+                                     snps_to_check = top_snp_pos)
 
   # save proportion of SNPs in regions
-  null_proportions[k] <- eplp$calculate_proportion(n_in_null_regions, regions_to_search[['bp_len']])
+  null_proportions[k] <- eplp$calculate_proportion(n_in_null_regions, abs(regions_to_search[['gene_length_bp']]))
 }
 
 # get p from null distribution
+# expect null given randomly sampled example data
 bootstrap_p <- mean(null_proportions >= actual_proportion)
 prll$stopCluster(cl)

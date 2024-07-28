@@ -5,16 +5,16 @@
 \title{Check if any SNPs are in a given region}
 \usage{
 check_if_snps_in_region(
-  snps_to_check,
   region_row,
+  snps_to_check,
   upstream_bp = 35000,
   downstream_bp = 10000
 )
 }
 \arguments{
-\item{snps_to_check}{A data frame containing the SNPs to check}
-
 \item{region_row}{A row from a data frame containing the region to check}
+
+\item{snps_to_check}{A data frame containing the SNPs to check}
 
 \item{upstream_bp}{The number of base pairs upstream of the region to include}
 
@@ -36,8 +36,7 @@ snps_to_check <- tibble::tibble(
  CHR = c(1, 1, 2, 3),
  POS = c(100000, 200000, 150000, 250000)
 )
-  
-check_if_snps_in_region(snps_to_check, region_row)
-  
- @export
+
+check_if_snps_in_region(region_row, snps_to_check)
+
 }

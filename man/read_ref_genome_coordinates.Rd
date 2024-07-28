@@ -4,7 +4,7 @@
 \alias{read_ref_genome_coordinates}
 \title{Read Reference Genome Coordinates}
 \usage{
-read_ref_genome_coordinates()
+read_ref_genome_coordinates(warn = TRUE)
 }
 \value{
 A dataframe containing reference genome coordinates.

@@ -324,8 +324,10 @@ set_genomes <- function(host = NULL) {
 #' @return A dataframe containing reference genome coordinates.
 #'
 #' @export
-read_ref_genome_coordinates <- function() {
-  message("Note: Loaded reference genome coordinates are hard-coded to GRCh38.p14")
+read_ref_genome_coordinates <- function(warn = TRUE) {
+  if(warn) {
+    message("Note: Loaded reference genome coordinates are hard-coded to GRCh38.p14")
+  }
 
   reference_file <- "grch38p14_sequence_report.tsv"
   reference_path <- system.file("extdata", "annotations",
