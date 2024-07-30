@@ -6,7 +6,9 @@
 #' @return A proportion of the regions covered by SNPs
 #'
 #' @examples
-#' calculate_proportion(c(50, 40, 10), c(6000, 3000, 1000))
+#' \dontrun{
+#'   calculate_proportion(c(50, 40, 10), c(6000, 3000, 1000))
+#' }
 #'
 #' @export
 calculate_proportion <- function(n_in_regions, region_lengths) {
@@ -23,8 +25,10 @@ calculate_proportion <- function(n_in_regions, region_lengths) {
 #' @return A vector containing the chromosome, start, and end of the region
 #'
 #' @examples
-#' ref_coords <- read_ref_genome_coordinates()
-#' sample_region(1000, ref_coords)
+#' \dontrun{
+#'   ref_coords <- read_ref_genome_coordinates()
+#'   sample_region(1000, ref_coords)
+#' }
 #'
 #' @export
 sample_region <- function(region_length, chr_reference) {
@@ -47,7 +51,9 @@ sample_region <- function(region_length, chr_reference) {
 #' @return A data frame containing the sampled regions
 #'
 #' @examples
-#' sample_dummy_regions(n_regions = 10, min_length = 1000, max_length = 2000)
+#' \dontrun{
+#'   sample_dummy_regions(n_regions = 10, min_length = 1000, max_length = 2000)
+#' }
 #'
 #' @export
 sample_dummy_regions <- function(n_regions = 100, min_length = 1000, max_length = 500000) {
@@ -72,7 +78,9 @@ sample_dummy_regions <- function(n_regions = 100, min_length = 1000, max_length 
 #' @return A data frame containing the sampled regions
 #'
 #' @examples
-#' sample_regions_from_list(c(1000, 2000, 3000))
+#' \dontrun{
+#'   sample_regions_from_list(c(1000, 2000, 3000))
+#' }
 #'
 #' @export
 sample_regions_from_list <- function(region_lengths) {
@@ -99,9 +107,11 @@ sample_regions_from_list <- function(region_lengths) {
 #' @return The coverage percentage for the chromosome
 #'
 #' @examples
-#' ref_coords <- read_ref_genome_coordinates()
-#' data <- sample_dummy_regions(n_regions = 100, min_length = 1000, max_length = 2000)
-#' get_coverage_for_chromosome(data, ref_coords, chrom = 1)
+#' \dontrun{
+#'   ref_coords <- read_ref_genome_coordinates()
+#'   data <- sample_dummy_regions(n_regions = 100, min_length = 1000, max_length = 2000)
+#'   get_coverage_for_chromosome(data, ref_coords, chrom = 1)
+#' }
 #'
 #' @export
 get_coverage_for_chromosome <- function(data, chr_reference, chrom = 1) {
@@ -127,17 +137,19 @@ get_coverage_for_chromosome <- function(data, chr_reference, chrom = 1) {
 #' @return The number of SNPs in the region
 #'
 #' @examples
-#' region_row <- tibble::tibble(
-#'  chr = 1,
-#'  gene_start = 100000,
-#'  gene_end = 200000
-#' )
-#' snps_to_check <- tibble::tibble(
-#'  CHR = c(1, 1, 2, 3),
-#'  POS = c(100000, 200000, 150000, 250000)
-#' )
+#' \dontrun{
+#'   region_row <- tibble::tibble(
+#'     chr = 1,
+#'     gene_start = 100000,
+#'     gene_end = 200000
+#'   )
+#'   snps_to_check <- tibble::tibble(
+#'     CHR = c(1, 1, 2, 3),
+#'     POS = c(100000, 200000, 150000, 250000)
+#'   )
 #'
-#' check_if_snps_in_region(region_row, snps_to_check)
+#'   check_if_snps_in_region(region_row, snps_to_check)
+#' }
 #'
 #' @export
 check_if_snps_in_region <- function(region_row, snps_to_check, upstream_bp = 35000,

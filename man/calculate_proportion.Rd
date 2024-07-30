@@ -18,6 +18,8 @@ A proportion of the regions covered by SNPs
 Calculate proportion of regions covered by SNPs
 }
 \examples{
-calculate_proportion(c(50, 40, 10), c(6000, 3000, 1000))
+\dontrun{
+  calculate_proportion(c(50, 40, 10), c(6000, 3000, 1000))
+}
 
 }

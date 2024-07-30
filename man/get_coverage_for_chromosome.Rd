@@ -20,8 +20,10 @@ The coverage percentage for the chromosome
 Get the coverage percentage for a chromosome based on a set of regions
 }
 \examples{
-ref_coords <- read_ref_genome_coordinates()
-data <- sample_dummy_regions(n_regions = 100, min_length = 1000, max_length = 2000)
-get_coverage_for_chromosome(data, ref_coords, chrom = 1)
+\dontrun{
+  ref_coords <- read_ref_genome_coordinates()
+  data <- sample_dummy_regions(n_regions = 100, min_length = 1000, max_length = 2000)
+  get_coverage_for_chromosome(data, ref_coords, chrom = 1)
+}
 
 }

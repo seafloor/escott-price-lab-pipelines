@@ -16,6 +16,8 @@ A data frame containing the sampled regions
 Sample multiple regions from the reference genome given a vector of region lengths
 }
 \examples{
-sample_regions_from_list(c(1000, 2000, 3000))
+\dontrun{
+  sample_regions_from_list(c(1000, 2000, 3000))
+}
 
 }

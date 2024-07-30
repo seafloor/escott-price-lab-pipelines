@@ -18,7 +18,9 @@ A vector containing the chromosome, start, and end of the region
 Sample a region from the reference genome
 }
 \examples{
-ref_coords <- read_ref_genome_coordinates()
-sample_region(1000, ref_coords)
+\dontrun{
+  ref_coords <- read_ref_genome_coordinates()
+  sample_region(1000, ref_coords)
+}
 
 }

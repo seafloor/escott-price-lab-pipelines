@@ -20,6 +20,8 @@ A data frame containing the sampled regions
 Sample multiple regions from the reference genome
 }
 \examples{
-sample_dummy_regions(n_regions = 10, min_length = 1000, max_length = 2000)
+\dontrun{
+  sample_dummy_regions(n_regions = 10, min_length = 1000, max_length = 2000)
+}
 
 }

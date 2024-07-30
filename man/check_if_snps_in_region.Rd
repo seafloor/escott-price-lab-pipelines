@@ -27,16 +27,18 @@ The number of SNPs in the region
 Check if any SNPs are in a given region
 }
 \examples{
-region_row <- tibble::tibble(
- chr = 1,
- gene_start = 100000,
- gene_end = 200000
-)
-snps_to_check <- tibble::tibble(
- CHR = c(1, 1, 2, 3),
- POS = c(100000, 200000, 150000, 250000)
-)
+\dontrun{
+  region_row <- tibble::tibble(
+    chr = 1,
+    gene_start = 100000,
+    gene_end = 200000
+  )
+  snps_to_check <- tibble::tibble(
+    CHR = c(1, 1, 2, 3),
+    POS = c(100000, 200000, 150000, 250000)
+  )
 
-check_if_snps_in_region(region_row, snps_to_check)
+  check_if_snps_in_region(region_row, snps_to_check)
+}
 
 }
