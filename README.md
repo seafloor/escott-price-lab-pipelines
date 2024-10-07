@@ -3,6 +3,7 @@
 [![R-CMD-check](https://github.com/seafloor/escott-price-lab-pipelines/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/seafloor/escott-price-lab-pipelines/actions/workflows/R-CMD-check.yaml)
 [![codecov](https://codecov.io/gh/seafloor/escott-price-lab-pipelines/graph/badge.svg?token=IE0NJEL213)](https://codecov.io/gh/seafloor/escott-price-lab-pipelines)
 [![lifecycle](https://lifecycle.r-lib.org/articles/figures/lifecycle-experimental.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
+[![DOI](https://zenodo.org/badge/751484131.svg)](https://doi.org/10.5281/zenodo.13898716)
 
 ## Welcome to the Escott-Price Lab Pipelines repository! :wave: 
 
