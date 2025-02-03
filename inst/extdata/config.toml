@@ -28,9 +28,14 @@ uswest = "https://uswest.ensembl.org/"
 
 [fixed_regions]
 apoe = {chr = 19, start = 44400000, end = 46500000}
-mhc = {chr = 6, start = 25000000, end = 3300000}
+mhc = {chr = 6, start = 25000000, end = 33000000}
 # mhc_extended = {}
 # igh = {}
+
+[fixed_regions_grch38]
+# positions mapped to grch38 usinng liftover
+apoe = {chr = 19, start = 43895848, end = 45996742}
+mhc = {chr = 6, start = 24999772, end = 33032223}
 
 [column_labels]
 ensemble_columns_to_extract = [

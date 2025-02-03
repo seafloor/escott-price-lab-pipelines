@@ -50,7 +50,7 @@ read_unmapped_variants <- function(filename) {
       dplyr::mutate(CHROM = stringr::str_replace_all(CHROM, "chr", ""))
 
     n_unmapped <- nrow(df)
-    message(paste(n_unmapped, "unmapped variants removed"))
+    message(paste(n_unmapped, "unmapped variants removed from mapped dataset"))
 
     # Add chrpos column for merging
     df <- df %>%
@@ -89,7 +89,7 @@ call_liftover <- function(data, chr = "chr", pos = "pos", from_build = "grch37",
   if(check_liftover_installed) {
     check_for_liftover()
   }
-  
+
   # check if function is being called from mac or linux
   db_path <- system.file("extdata", package="escottpricelabpipelines")
   if (Sys.info()["sysname"] == "Darwin") {
@@ -111,29 +111,29 @@ call_liftover <- function(data, chr = "chr", pos = "pos", from_build = "grch37",
   bed <- to_bed(data, chrom = chr, position = pos)
   temp_in <- tempfile(pattern = from_build, fileext = ".bed", tmpdir = tempdir())
   readr::write_tsv(bed, temp_in, col_names = FALSE)
-  
+
   # make sure the input bed file has been created
   if (!file.exists(temp_in)) {
     stop("Temporary input bed file not created: ", temp_in)
   }
-  
+
 
   # create a tempfile for the liftover output
   temp_out <- tempfile(pattern = to_build, fileext = ".bed", tmpdir = tempdir())
   temp_unmapped <- tempfile(pattern = to_build, fileext = ".unmapped", tmpdir = tempdir())
-  
+
   if (!file.exists(liftOver)) {
     stop(glue::glue("Liftover executable not found in path {liftOver}",
                     "Please check the path or run check_for_liftover()."))
   }
-  
+
   # make a system2 call to the liftOver executable with given chain file
   result <- system2(command = liftOver,
           args = c(temp_in,
                    chain_file,
                    temp_out,
                    temp_unmapped))
-  
+
   if (result != 0) {
     stop("Liftover command failed with message: ", paste(result, collapse = "\n"))
   }
@@ -146,8 +146,12 @@ call_liftover <- function(data, chr = "chr", pos = "pos", from_build = "grch37",
 
   # drop unmapped variants from original dataset
   if(!is.null(data_unmapped)) {
+    message(paste0(
+      'Dropping ',
+      nrow(data_unmapped),
+      ' unmapped variants from original dataset'))
     data <- data %>%
-      dplyr::mutate(chrpos = stringr::str_c(chr, pos, sep = "_")) %>%
+      dplyr::mutate(chrpos = stringr::str_c(!!sym(chr), !!sym(pos), sep = "_")) %>%
       dplyr::filter(!chrpos %in% data_unmapped[['chrpos']]) %>%
       dplyr::select(-chrpos)
   }
@@ -155,6 +159,8 @@ call_liftover <- function(data, chr = "chr", pos = "pos", from_build = "grch37",
   # assert that data_lifted and data now have the same number of rows
   if (nrow(bed_lifted) != nrow(data)) {
     print(bed_lifted)
+    print(data_unmapped)
+    print(data)
     stop(glue::glue("Number of rows in ",
                     "lifted data ({nrow(bed_lifted)}) ",
                     "and original data ({nrow(data)})"),

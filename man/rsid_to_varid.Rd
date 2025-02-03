@@ -7,9 +7,10 @@
 rsid_to_varid(
   rsids,
   spacing_min = 0,
-  spacing_max = 1,
-  batch_size = 50,
-  batch_spacing = 5
+  spacing_max = 0.1,
+  batch_size = 100,
+  batch_spacing = 1,
+  multiallelic_strategy = "first"
 )
 }
 \arguments{
@@ -22,14 +23,20 @@ rsid_to_varid(
 \item{batch_size}{A numeric value indicating the number of rsids to be submitted in each batch}
 
 \item{batch_spacing}{A numeric value indicating the number of seconds to wait between batches}
+
+\item{multiallelic_strategy}{How to handle return of multiple alleles for a single rsid. Options are: 'first', 'last', 'all'. Default is 'first'.}
 }
 \value{
 A character vector of variant IDs (formatted as chrom_pos_ref_alt)
 }
 \description{
 Variant IDs are chrom_post_ref_alt, e.g. 1_12345_A_T. Note multiallelic
-variants are not handled by this function - it will concatenate all
-returned variant IDs into a single string with a semi-colon separator.
+variants are handled by this function - it will take the first returned
+by default. It can also take the last or concatenate all
+returned variant IDs into a single string with a semi-colon separator
+(see multiallelic_strategy). Note that 'first' or 'last' must be passed
+if the variant is to be later annotated with a gene in OpenTargets - a
+query for multiple semi-colon separated variant IDs will not return anything.
 Note also that the ref/alt are taken from open targets so may be flipped
 compared to other datasets if MAF ~ 0.5.
 }

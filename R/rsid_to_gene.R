@@ -33,8 +33,12 @@ query_opentargets <- function(query_string, variables = NULL, wait = 0) {
 #' Convert a list of rsids to variant IDs used in Open Targets Genetics.
 #'
 #' Variant IDs are chrom_post_ref_alt, e.g. 1_12345_A_T. Note multiallelic
-#' variants are not handled by this function - it will concatenate all
-#' returned variant IDs into a single string with a semi-colon separator.
+#' variants are handled by this function - it will take the first returned
+#' by default. It can also take the last or concatenate all
+#' returned variant IDs into a single string with a semi-colon separator
+#' (see multiallelic_strategy). Note that 'first' or 'last' must be passed
+#' if the variant is to be later annotated with a gene in OpenTargets - a
+#' query for multiple semi-colon separated variant IDs will not return anything.
 #' Note also that the ref/alt are taken from open targets so may be flipped
 #' compared to other datasets if MAF ~ 0.5.
 #'
@@ -51,11 +55,13 @@ query_opentargets <- function(query_string, variables = NULL, wait = 0) {
 #' @param spacing_max A numeric value indicating the maximum number of seconds to wait between requests
 #' @param batch_size A numeric value indicating the number of rsids to be submitted in each batch
 #' @param batch_spacing A numeric value indicating the number of seconds to wait between batches
+#' @param multiallelic_strategy How to handle return of multiple alleles for a single rsid. Options are: 'first', 'last', 'all'. Default is 'first'.
 #'
 #' @return A character vector of variant IDs (formatted as chrom_pos_ref_alt)
 #'
 #' @export
-rsid_to_varid <- function(rsids, spacing_min = 0, spacing_max = 1, batch_size = 50, batch_spacing = 5) {
+rsid_to_varid <- function(rsids, spacing_min = 0, spacing_max = 0.1, batch_size = 100, batch_spacing = 1,
+                          multiallelic_strategy = 'first') {
   # support batches of 100 to avoid spamming servers
 
   query_string = "
@@ -74,6 +80,7 @@ rsid_to_varid <- function(rsids, spacing_min = 0, spacing_max = 1, batch_size = 
                                    total = length(rsids),
                                    force = TRUE)
 
+
   for(i in 1:length(rsids)) {
     pb$tick()
     if(i %% batch_size == 0) {
@@ -83,9 +90,28 @@ rsid_to_varid <- function(rsids, spacing_min = 0, spacing_max = 1, batch_size = 
     wait <- wait_times[i]
 
     varId <- query_opentargets(query_string, variables = c(list("rsId" = rsId)), wait = wait)
-    varId <- stringr::str_c(unlist(varId$data$search$variants), collapse = ";")
+    varId <- unlist(varId$data$search$variants)
+
+    # some rsids return e.g. '1_1732685_T_C;1_1732685_T_G' for 'rs2294489'
+    # decide which SNP to keep (first, last, or both)
+    # note latter will not match any genes in OpenTargets
+    if (multiallelic_strategy == 'first') {
+      varId <- varId[[1]]
+    } else if (multiallelic_strategy == 'last') {
+      varId <- varId[[length(varId)]]
+    } else if (multiallelic_strategy == 'all') {
+      varId <- stringr::str_c(varId, collapse = ";")
+    } else {
+      stop("multiallelic_strategy must be one of 'first', 'last', or 'all'")
+    }
+
+    if (is.null(varId) || length(varId) == 0 || varId == "") {
+      varId <- "NA"
+    }
+
     varids <- c(varids, varId)
   }
+
 
   return(varids)
 }
@@ -221,11 +247,13 @@ varid_to_genes <- function(variantId, wait = 0) {
 #' @param spacing_max A numeric value indicating the maximum number of seconds to wait between requests
 #' @param batch_size A numeric value indicating the number of rsids to be submitted in each batch
 #' @param batch_spacing A numeric value indicating the number of seconds to wait between batches
+#' @param take_top_n_genes A numeric value indicating the max number of genes to return for each variant
 #'
 #' @return A list containing (index 1), the annotated genes and (index 2), the rsids that were not found in the Open Targets Genetics database
 #'
 #' @export
-rsids_to_functional_genes <- function(rsids, spacing_min = 0, spacing_max = 1, batch_size = 50, batch_spacing = 5) {
+rsids_to_functional_genes <- function(rsids, spacing_min = 0, spacing_max = 0.1, batch_size = 100, batch_spacing = 1,
+                                      take_top_n_genes = 3) {
   # convert rsids to variants IDs (chrom pos ref alt)
   variant_ids <- rsid_to_varid(rsids, spacing_min, spacing_max)
   assertthat::assert_that(length(variant_ids) == length(rsids))
@@ -239,9 +267,6 @@ rsids_to_functional_genes <- function(rsids, spacing_min = 0, spacing_max = 1, b
 
   # subset to non-missing variant_ids for search
   variant_ids <- variant_ids[!rsid_missing]
-
-  # spacer to avoid spamming
-  Sys.sleep(2)
   gene_wait_times <- runif(length(variant_ids), spacing_min, spacing_max)
   pb <- progress::progress_bar$new(format = "  Annotating genes [:bar] :current/:total (:percent)",
                                    total = length(variant_ids),
@@ -260,7 +285,11 @@ rsids_to_functional_genes <- function(rsids, spacing_min = 0, spacing_max = 1, b
     genes <- varid_to_genes(variantId, wait = wait) %>%
       dplyr::mutate(rsid = rsids[i]) %>%
       dplyr::select(rsid, dplyr::everything())
-    annotations <- rbind(annotations, genes)
+
+    if(nrow(genes) > 0) {
+      genes <- dplyr::slice_max(genes, n = take_top_n_genes, order_by = overall_score)
+      annotations <- rbind(annotations, genes)
+    }
   }
 
   # check if any variant_ids are missing from the annotations

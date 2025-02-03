@@ -7,9 +7,10 @@
 rsids_to_functional_genes(
   rsids,
   spacing_min = 0,
-  spacing_max = 1,
-  batch_size = 50,
-  batch_spacing = 5
+  spacing_max = 0.1,
+  batch_size = 100,
+  batch_spacing = 1,
+  take_top_n_genes = 3
 )
 }
 \arguments{
@@ -22,6 +23,8 @@ rsids_to_functional_genes(
 \item{batch_size}{A numeric value indicating the number of rsids to be submitted in each batch}
 
 \item{batch_spacing}{A numeric value indicating the number of seconds to wait between batches}
+
+\item{take_top_n_genes}{A numeric value indicating the max number of genes to return for each variant}
 }
 \value{
 A list containing (index 1), the annotated genes and (index 2), the rsids that were not found in the Open Targets Genetics database
